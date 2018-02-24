@@ -19,9 +19,14 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "assets/stylesheets/css/materialize.min.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "assets/javascripts/jquery-3.1.1.min.js",
+        "assets/javascripts/hammer.min.js",
+        "assets/javascripts/materialize.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
