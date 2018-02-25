@@ -1,0 +1,44 @@
+<div>
+    <h5 class="my-titre indigo-text">
+      {{titre}}
+    </h5>
+  <table class="highlight centered responsive-table">
+    <thead class="teal darken-3">
+      <tr>
+        <th>Photo justificatif</th>
+        <th>Bureau de vote</th>
+        <th>Commune</th>
+        <th>District</th>
+        <th>Region</th>
+        <th>Province</th>
+        <th>Traiter</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let validation of data">
+        <td>
+          <img [src]="validation.imageUrl" width="350" heigth="350">
+        </td>
+        <td>
+          {{validation.bureauVote.nom}}
+        </td>
+        <td>
+            {{validation.commune}}
+        </td>
+        <td>
+           {{validation.district}}
+        </td>
+        <td>
+            {{validation.region}} 
+        </td>
+        <td>
+            {{validation.province}}
+        </td>
+        <td>
+          <button class="btn amber darken-3" (click)="traiter(validation.id)">Traiter</button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>

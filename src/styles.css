@@ -9,9 +9,29 @@
  margin: 8px 0 8px 0 !important;
 }
 
+a{
+    cursor: pointer ;
+}
+
 .centreo{
     margin-left: auto;
 }
+
+.my-badge {
+    display: inline-block !important;
+}
+.my-round-badge{
+    border-radius: 50%;
+    padding: 15px 0px !important;
+    position: relative;
+    right:20px;
+    line-height: 6px !important;
+    margin-left: 14px !important;
+    font-size: 12px !important;
+    min-width: 2.1rem !important;
+    top: -5px;
+}
+
 /* header, main {
     padding-left: 300px;
 } */
@@ -30,23 +50,65 @@
 
 
 /*-------  tableau de bord ------*/
+body{
+    background: #e3f2fd !important;
+}
+.card-pannel div h1{
+    margin:0 !important;
+}
+.my-icon h1{
+    margin:0 !important;
+}
+.s9 .card-chiffre{
+    position: relative;
+    left:20px;
+}
 .card-chiffre{
     color: white !important;
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: right;
-    padding-top: 26px;
-    
+    position: relative;
+    top:6px;
 }
+
+.card-nombre{
+    font-size: 1.7rem !important;
+}
+
 .card-detail-text{
     color: white !important;
     font-size: 1.5rem;
     font-weight: bold;
-    text-align: right;
+    text-align: left;
+    margin:0 !important;
 }
 /*-------- fin tableau de bord --*/
-
+/*-------- table candidat ------*/
+table thead tr th{
+    border-radius:0px!important;
+    color:#FFF;
+}
+/*-------- fin table candidat --*/
+/*-------- carte ------*/
+.carte-mada{
+    padding:40px;
+    margin-top:9px;
+}
+.carte-mada img{
+    width: auto;
+}
+.my-s7{
+    width: 62% !important;
+    margin-left: 50px !important;
+}
+/*-------- fin carte --*/
 
 /*-------- contenu main input -----------*/
+.my-container{
+    padding:20px;
+}
+
+
 .my-titre{
     margin-left: 30px;
 }

@@ -3,97 +3,41 @@
     <div class="navbar">
         <nav class="nav-extended white">
             <div class="nav-wrapper">
-                <a href="#" data-activates="slide-out" class="left button-collapse indigo-text text-darken-4" materialize="sideNav" [materializeParams]="[{closeOnClick: true}]">
+                <a data-activates="slide-out" class="left button-collapse indigo-text text-darken-4" materialize="sideNav" [materializeParams]="[{closeOnClick: true}]">
                     <i class="material-icons">menu</i>
                 </a>
                 <a class="brand-logo center indigo-text text-darken-4">
-                    Ndao Ifidy
+                    {{title}}
                 </a>
+                <ul class="right hide-on-med-and-down">
+                    <li *ngIf="InValidation">
+                        <a routerLink="validation">
+                            <i class="material-icons indigo-text text-darken-3 my-badge">notifications</i>
+                            <span class="badge white-text red darken-3 my-round-badge">57</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </nav>
     </div>
 </header>
 <!---------- menu latéral ---------->
 <ul id="slide-out" class="side-nav">
-    <!-- <li>
-        <div class="userView">
-            <div class="background">
-                <img [src]="drapeau">
-            </div>
-            <div class="centreo">
-                <a routerLink="">
-                    <span class="circle {{getColor()}}">S</span>
-                </a>
-                <a routerLink="">
-                    <span class="grey-text">Nom d'utilisateur</span>
-                </a>
-                <a routerLink="">
-                    <span class="grey-text">Fokotany</span>
-                </a>
-            </div>
-        </div>
-    </li> -->
     <li>
-        <a href="#">
+        <a routerLink="dashboard">
             <i class="material-icons">dashboard</i>Tableau de bord
         </a>
     </li>
     <li>
         <div class="divider"></div>
     </li>
-    <li class="no-padding">
-        <ul class="collapsible collapsible-accordion">
-            <li>
-                <a class="collapsible-header">Archives
-                    <i class="material-icons">archive</i>
-                </a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li>
-                            <a href="#">Election 2014</a>
-                        </li>
-                        <li>
-                            <a href="#">Election 2015</a>
-                        </li>
-                        <li>
-                            <a href="#">Election 2016</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-    </li>
     <li>
-        <div class="divider"></div>
-    </li>
-    <li>
-        <a href="#">
-            <i class="material-icons">people</i>Candidats
+        <a routerLink="validation">
+            <i class="material-icons">check</i>Validation des resultats
         </a>
     </li>
-    <li>
-        <div class="divider"></div>
-    </li>
-    <li>
-        <div class="divider"></div>
-    </li>
-    <li>
-        <a href="#">
-            <i class="material-icons">dashboard</i>Province
-        </a>
-    </li>
-    <li>
-        <a href="#">
-            <i class="material-icons">dashboard</i>Region
-        </a>
-    </li>
-    <li>
-        <a href="#">
-            <i class="material-icons">dashboard</i>Fokontany
-        </a>
-    </li>
-    
-   
+
+
 </ul>
 
 

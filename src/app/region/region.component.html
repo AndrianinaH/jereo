@@ -1,28 +1,33 @@
 <div class="row">
     <h5 class="my-titre indigo-text">
-        <b>{{titre}}</b>
+        <b>{{titre}} {{nomRegion}}</b>
     </h5>
     <div class="col s4 carte-mada">
-        <img [src]="image" usemap="#image-map">
+        <img *ngIf="nomRegion == 'Analamanga'" [src]="image" usemap="#image-map">
 
-        <map name="image-map">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Diego"
-                title="Diego" coords="364,48,335,70,344,93,333,121,314,111,314,124,313,138,304,124,295,129,295,140,303,148,313,147,319,157,340,162,350,157,366,173,371,191,387,202,394,206,400,227,401,238,409,245,415,236,424,212,411,188,408,163,405,143,399,115,387,87"
+        <map name="image-map" *ngIf="nomRegion == 'Analamanga'">
+            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailDistrict($event)" target="" alt="Ambohidratrimo"
+                title="Ambohidratrimo" coords="207,438,219,444,232,448,238,450,245,462,243,470,243,478,261,483,272,474,278,463,284,461,291,445,295,439,298,428,306,420,316,412,317,393,312,372,314,358,305,357,301,369,285,347,274,352,264,354,253,364,244,375,235,395,231,408,219,429"
                 shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Janga"
-                title="Janga" coords="306,148,288,166,270,182,256,209,232,219,212,235,195,237,173,243,160,249,141,258,123,257,122,268,124,277,114,296,102,314,95,325,100,340,103,366,113,386,114,405,131,407,142,414,154,409,142,367,151,354,160,360,177,366,186,353,199,342,213,341,233,338,251,343,265,339,274,347,286,337,295,340,301,331,296,320,304,315,310,306,301,294,296,281,299,265,311,261,324,270,334,282,345,283,355,272,362,251,353,242,349,220,368,211,371,199,370,180,360,168,351,158,343,161,326,161"
+            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailDistrict($event)" target="" alt="Andramasina"
+                title="Andramasina" coords="291,544,282,557,291,571,293,585,303,606,317,623,339,627,350,638,364,658,370,660,381,647,378,632,382,622,390,612,394,581,388,555,353,550,344,547,336,539,331,546,322,538,314,546"
                 shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt=""
-                title="Antananarivo" coords="180,365,176,380,175,399,181,410,190,414,188,423,189,442,204,444,213,450,217,463,240,465,258,457,274,453,284,452,290,439,296,423,299,407,299,380,302,366,298,342,284,337,271,342,258,336,238,337,216,338,198,343,187,350"
+            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailDistrict($event)" target="" alt="Anjozorobe"
+                title="Anjozorobe" coords="282,202,283,235,285,260,275,271,270,292,272,310,280,312,269,334,265,352,285,350,299,366,306,357,325,367,338,357,347,377,357,400,377,408,396,403,403,378,411,347,415,320,407,276,405,239,394,211,378,179,365,159,332,161,322,183,323,199,305,204,292,211"
                 shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Fianara"
-                title="Fianara" coords="189,445,191,474,188,506,177,521,171,536,161,546,166,558,159,569,153,584,148,595,164,603,171,594,177,587,191,584,205,582,217,600,226,613,225,624,221,632,225,641,232,646,240,653,244,661,255,658,255,649,271,653,280,638,283,621,294,580,304,547,317,518,330,469,312,460,304,465,293,467,286,459,287,450,258,456,243,466,223,460,207,444"
+            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailDistrict($event)" target="" alt="Ankazobe"
+                title="Ankazobe" coords="49,154,41,177,59,205,73,246,80,289,102,330,120,355,143,361,158,380,168,406,193,432,200,436,220,428,228,411,232,393,259,354,273,325,275,312,268,296,278,265,282,243,280,205,254,192,244,170,230,160,213,164,191,170,162,183,118,181,106,149"
                 shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Tamatave"
-                title="Tamatave" coords="371,191,370,206,352,215,355,231,358,247,360,261,351,275,333,280,317,262,299,266,297,282,305,294,312,304,302,316,298,322,298,335,300,362,298,390,295,415,293,437,285,449,286,463,296,466,306,460,317,462,328,468,342,449,350,409,369,357,376,333,369,317,381,292,390,289,390,302,402,283,388,279,393,259,382,251,385,242,379,225,394,220,401,229,401,210"
+            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailDistrict($event)" target="" alt="Antananarivo-Atsimondrano"
+                title="Antananarivo Atsimondrano" coords="262,484,275,539,291,543,315,543,317,529,312,510,297,496,284,489,279,469"
                 shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Tulear"
-                title="Tulear" coords="118,405,123,424,119,436,124,446,108,473,89,510,73,513,73,529,60,549,68,572,72,595,84,606,83,634,85,666,95,672,100,690,117,709,149,718,158,724,181,724,197,713,213,706,229,704,244,702,256,693,269,652,256,649,251,660,246,655,222,639,223,626,224,614,203,584,184,584,170,600,150,592,163,557,161,545,168,538,176,529,188,506,190,479,191,443,187,422,190,407,180,401,175,388,174,377,183,360,149,358,143,364,148,381,154,404,150,411,139,413"
+            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailDistrict($event)" target="" alt="Antananarivo Avaradrano"
+                title="Antananarivo Avaradrano" coords="290,464,301,476,303,489,293,494,310,513,321,539,330,541,335,528,344,524,339,510,328,508,326,468,332,450,317,432,307,421,291,437"
+                shape="poly">
+            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailDistrict($event)" target="" alt="Antananarivo-Renivohitra"
+                title="Antananarivo Renivohitra" coords="277,464,282,487,293,492,305,483,293,464" shape="poly">
+            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailDistrict($event)" target="" alt="Manjakandriana"
+                title="Manjakandriana" coords="308,419,328,441,329,479,327,504,336,510,345,528,336,537,352,546,389,554,383,529,390,496,392,460,392,408,367,405,350,392,340,369,336,356,325,363,315,363,316,387,325,404,323,413"
                 shape="poly">
         </map>
     </div>
@@ -36,7 +41,7 @@
                         </h1>
                     </div>
                     <div class="col s9">
-                        <p class="card-chiffre card-nombre">{{total + 45000 | number}}</p>
+                        <p class="card-chiffre card-nombre">{{total + 3100 | number}}</p>
                     </div>
                     <div class="col s12">
                         <p class="card-detail-text">Total Electeur(s)</p>

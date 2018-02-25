@@ -1,0 +1,97 @@
+<div class="row">
+  <h5 class="my-titre indigo-text"><b>{{titre}} {{nomDistrict}}</b></h5>
+  <div class="col s12">
+      <div class="row">
+          <div class="col s12 m6 l4">
+              <div class="card-panel blue darken-3 row">
+                  <div class="col s3 my-icon">
+                      <h1>
+                          <i class="material-icons white-text large">people</i>
+                      </h1>
+                  </div>
+                  <div class="col s9">
+                      <p class="card-chiffre card-nombre">{{total + 640 | number}}</p>
+                  </div>
+                  <div class="col s12">
+                      <p class="card-detail-text">Total Electeur(s)</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col s12 m6 l4">
+              <div class="card-panel green row">
+                  <div class="col s4 my-icon">
+                      <h1>
+                          <i class="material-icons white-text large">check</i>
+                      </h1>
+                  </div>
+                  <div class="col s8">
+                      <p class="card-chiffre">{{percent | number:'2.1-1' }}%</p>
+                  </div>
+                  <div class="col s12">
+                      <p class="card-detail-text">Vote</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col s12 m6 l4">
+              <div class="card-panel red row hoverable">
+                  <div class="col s4 my-icon">
+                      <h1>
+                          <i class="material-icons white-text large">close</i>
+                      </h1>
+                  </div>
+                  <div class="col s8">
+                      <p class="card-chiffre">{{ abstinance | number:'2.1-1' }}%</p>
+                  </div>
+                  <div class="col s12">
+                      <p class="card-detail-text">Abstinant</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    <!-- fin row -->
+  </div>
+  <!-- fin cols8 -->
+  <div class="col s12">
+      <table class="highlight centered responsive-table">
+          <thead class="teal darken-3">
+              <tr>
+                  <th>Candidat</th>
+                  <th>Mouvance</th>
+                  <th>nombre de vote</th>
+                  <th>pourcentage de vote</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let c of data.candidatList">
+                  <td>
+                      <b>{{ c.candidat.representant }}</b>
+                  </td>
+                  <td>
+                      {{ c.candidat.mouvance }}
+                  </td>
+                  <td>
+                      {{ c.nombre }}
+                  </td>
+                  <td>
+                      {{ getPourcentage(c.nombre) | number }}%
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                      <b>Vote Blanc</b>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                      {{ data.blanc }}
+                  </td>
+                  <td>
+                      {{ getPourcentage(data.blanc) | number}}%
+                  </td>
+              </tr>
+
+          </tbody>
+      </table>
+  </div>
+</div>
+<!-- fin row -->
