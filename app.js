@@ -7,12 +7,6 @@ let session = require('cookie-session');
 
 let app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-
-app.listen(8081);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -31,24 +25,5 @@ app.use(bodyParser.json())
 //-------------- controller ----------------//
 // .use('/', index)
 // .use('/', webservice)
+app.listen(process.env.PORT || 3000);
 
-// // catch 404 and forward to error handler
-// .use(function(req, res, next) {
-//   let err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// })
-
-// // error handler
-// .use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-//   // render the error page
-//   console.log(err);
-//   res.status(err.status || 500);
-//   res.render('error.ejs',{error:err, status:"505 error"});
-// })
-
- 
-module.exports = app;
