@@ -9,9 +9,9 @@ import { AuthService } from '../service/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  private titre: string = "Dashboard";
-  private color: string = 'red';
-  private bgColor: string = 'amber lighten-5';
+  public titre: string = "Dashboard";
+  public color: string = 'red';
+  public bgColor: string = 'amber lighten-5';
 
   constructor(
     public auth : AuthService,

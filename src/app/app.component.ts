@@ -10,10 +10,10 @@ import { Location } from '@angular/common';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private title: string = 'Jereo';
-  private color: string = 'red';
-  private badgeColor : string = 'amber';
-  private isConnected : boolean = false;
+  public title: string = 'Jereo';
+  public color: string = 'red';
+  public badgeColor : string = 'amber';
+  public isConnected : boolean = false;
 
   constructor(
     public auth: AuthService,

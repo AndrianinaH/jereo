@@ -8,10 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router'
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
-  private titre: string;
-  private color: string;
-  private addColor: string = 'indigo';
-  private isConnected: boolean = false;
+  public titre: string;
+  public color: string;
+  public addColor: string = 'indigo';
+  public isConnected: boolean = false;
 
   constructor(
     public playlistService: PlaylistServiceProvider,
