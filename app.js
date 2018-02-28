@@ -24,6 +24,6 @@ app.use(bodyParser.json())
 
 //-------------- controller ----------------//
 // .use('/', index)
-// .use('/', webservice)
+.use('/', webservice)
 app.listen(process.env.PORT || 3000);
 
