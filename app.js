@@ -3,7 +3,7 @@ let path = require('path');
 let bodyParser = require('body-parser');
 let session = require('cookie-session');
 // let index = require('./routes/index');
-// let webservice = require('./routes/webservice');
+let webservice = require('./routes/webservice');
 
 let app = express();
 
