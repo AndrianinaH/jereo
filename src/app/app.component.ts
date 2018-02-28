@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes,Router } from '@angular/router';
 import { AuthService } from './service/auth.service';
-
+import { Location } from '@angular/common';
+// // "start": "ng serve",
+// "start": "node app.js"
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +15,11 @@ export class AppComponent {
   private badgeColor : string = 'amber';
   private isConnected : boolean = false;
 
-  constructor(public auth: AuthService) {}
+  constructor(
+    public auth: AuthService,
+    public router: Router,
+    public location: Location
+  ) {}
 
   ngOnInit():void{
     this.isConnected = this.auth.isConnected();
@@ -21,6 +27,7 @@ export class AppComponent {
 
   deconnexion(){
     this.auth.deconnexion();
+    this.location.back();
   }
 }
 
