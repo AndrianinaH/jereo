@@ -1,169 +1,48 @@
 /*-------- sidenav --------------*/
-.nom_badge{
-    padding:8px 22px;
-    margin:5px;
-    font-size: 25px;
-    color: white;
-}
 .side-nav .divider {
  margin: 8px 0 8px 0 !important;
 }
-
 a{
     cursor: pointer ;
 }
-
 .centreo{
-    margin-left: auto;
+    margin: auto;
+    text-align: center;
 }
-
-.my-badge {
-    display: inline-block !important;
-}
-.my-round-badge{
-    border-radius: 50%;
-    padding: 15px 0px !important;
+.righteo{
     position: relative;
-    right:20px;
-    line-height: 6px !important;
-    margin-left: 14px !important;
-    font-size: 12px !important;
-    min-width: 2.1rem !important;
-    top: -5px;
+    float: right;
+    top:5px;
+}
+.nom_badge{
+    padding:8px 22px;
+    margin:auto;
+    font-size: 25px;
+    color: white;
+    line-height: 45px;
+}
+.side-nav .userView, .side-nav .userView .centreo {
+    height: 200px !important;
+    line-height: 10px !important;
+}
+.my-dropdown{
+    width:250px !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    top:65px !important;
 }
 
-/* header, main {
+header, main {
     padding-left: 300px;
-} */
-
-/*@media only screen and (max-width : 992px) {
+} 
+@media only screen and (max-width : 992px) {
     header, main {
     padding-left: 0;
     } 
-} */
-@media only screen and (min-width: 993px){
-    nav a.button-collapse {
-        display: block !important; 
-    }
 }
 /*-------- fin sidenav ----------*/
 
 
-/*-------  tableau de bord ------*/
-body{
-    background: #e3f2fd !important;
-}
-.card-pannel div h1{
-    margin:0 !important;
-}
-.my-icon h1{
-    margin:0 !important;
-}
-.s9 .card-chiffre{
-    position: relative;
-    left:20px;
-}
-.card-chiffre{
-    color: white !important;
-    font-size: 2rem;
-    text-align: right;
-    position: relative;
-    top:6px;
-}
-
-.card-nombre{
-    font-size: 1.7rem !important;
-}
-
-.card-detail-text{
-    color: white !important;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: left;
-    margin:0 !important;
-}
-/*-------- fin tableau de bord --*/
-/*-------- table candidat ------*/
-table thead tr th{
-    border-radius:0px!important;
-    color:#FFF;
-}
-/*-------- fin table candidat --*/
-/*-------- carte ------*/
-.carte-mada{
-    padding:40px;
-    margin-top:9px;
-}
-.carte-mada img{
-    width: auto;
-}
-.my-s7{
-    width: 62% !important;
-    margin-left: 50px !important;
-}
-/*-------- fin carte --*/
-
-/*-------- contenu main input -----------*/
-.my-container{
-    padding:20px;
-}
 
 
-.my-titre{
-    margin-left: 30px;
-}
-input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid #3f51b5;
-    box-shadow: 0 1px 0 0 #3f51b5;
-}
-input:not([type]):focus:not([readonly])+label, input[type=text]:focus:not([readonly])+label, input[type=password]:focus:not([readonly])+label, input[type=email]:focus:not([readonly])+label, input[type=url]:focus:not([readonly])+label, input[type=time]:focus:not([readonly])+label, input[type=date]:focus:not([readonly])+label, input[type=datetime]:focus:not([readonly])+label, input[type=datetime-local]:focus:not([readonly])+label, input[type=tel]:focus:not([readonly])+label, input[type=number]:focus:not([readonly])+label, input[type=search]:focus:not([readonly])+label, textarea.materialize-textarea:focus:not([readonly])+label {
-    color: #3f51b5;
-}
-.dropdown-content>li>span{
-     color: #3f51b5 !important;
-}
-.dropdown-content>.disabled>span{
-     color: #9e9e9e !important;
-}
-.modal-close{
-    margin-left: 10px !important;
-}
-.modal{
-    max-height: 90% !important;
-}
-/*-------- fin contenu main input  -------*/
 
-/*---------- datatable style -------------*/
-table.dataTable thead th {
-    border-bottom: 1px solid #d0d0d0 !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    border-radius: 2px !important;
-    transition: all .3s ease-out !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover,.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2) !important;
-    color: #FFF !important;
-    background-color: #283593 !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.current{
-    box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2) !important;
-    color: #283593 !important;
-    background-color: #FFF !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover,.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    border: none !important;
-}
-
-.dataTables_length,.dataTables_info{
-    margin-left:30px !important;
-}
-.dataTables_filter{
-    margin-right:30px !important;
-}
-
-/*---------- fin datatable style -------------*/

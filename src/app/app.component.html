@@ -1,49 +1,103 @@
 <!-------- menu principal  ---------->
-<header>
+<div *ngIf='isConnected'>
+    <header>
+        <div class="navbar">
+            <nav class="nav-extended {{color}} darken-3">
+                <div class="nav-wrapper">
+                    <a data-activates="slide-out" class="button-collapse white-text" materialize="sideNav">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <a class="brand-logo center white-text" routerLink="dashboard">
+                        <strong>{{title}}</strong>
+                    </a>
+                    <ul class="right hide-on-med-and-down">
+                        <li>
+                            <a class="dropdown-button" data-activates="dropdown1">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!------ dropdown deconnexion ------>
+    <ul id="dropdown1" class="dropdown-content my-dropdown">
+        <li>
+            <a class="{{color}}-text" (click)="deconnexion()">déconnexion</a>
+        </li>
+    </ul>
+    <!---------- menu latéral ---------->
+    <ul id="slide-out" class="side-nav fixed">
+        <li>
+            <div class="userView">
+                <div class="background">
+                    <img src="/assets/images/office2.jpg">
+                </div>
+                <div class="centreo">
+                    <a>
+                        <span class="circle nom_badge {{badgeColor}} white-text">L</span>
+                    </a>
+                    <a>
+                        <span class="white-text name">layton</span>
+                    </a>
+                    <a>
+                        <span class="white-text email">layton@gmail.com</span>
+                    </a>
+                </div>
+
+            </div>
+        </li>
+        <li>
+            <a routerLink="dashboard" class="{{color}}-text text-darken-3">
+                <i class="material-icons {{color}}-text text-darken-3">dashboard</i>Dashboard
+            </a>
+        </li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li>
+            <a class="{{color}}-text text-darken-3">
+                <i class="material-icons {{color}}-text text-darken-3">check</i>Wawa
+            </a>
+        </li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header {{color}}-text text-darken-3">Archives
+                        <i class="material-icons {{color}}-text text-darken-3">archives</i>
+                    </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>
+                                <a class="{{color}}-text text-darken-3">
+                                    <i class="material-icons {{color}}-text text-darken-3">videocam_off</i> Playlists supprimer
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</div>
+<!-- ----- login success ------- -->
+<div *ngIf='!isConnected'>
     <div class="navbar">
-        <nav class="nav-extended white">
+        <nav class="nav-extended {{color}} darken-3">
             <div class="nav-wrapper">
-                <a data-activates="slide-out" class="left button-collapse indigo-text text-darken-4" materialize="sideNav" [materializeParams]="[{closeOnClick: true}]">
-                    <i class="material-icons">menu</i>
+                <a class="brand-logo center white-text" routerLink="dashboard">
+                    <strong>{{title}}</strong>
                 </a>
-                <a class="brand-logo center indigo-text text-darken-4">
-                    {{title}}
-                </a>
-                <ul class="right hide-on-med-and-down">
-                    <li *ngIf="InValidation">
-                        <a routerLink="validation">
-                            <i class="material-icons indigo-text text-darken-3 my-badge">notifications</i>
-                            <span class="badge white-text red darken-3 my-round-badge">57</span>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </nav>
     </div>
-</header>
-<!---------- menu latéral ---------->
-<ul id="slide-out" class="side-nav">
-    <li>
-        <a routerLink="dashboard">
-            <i class="material-icons">dashboard</i>Tableau de bord
-        </a>
-    </li>
-    <li>
-        <div class="divider"></div>
-    </li>
-    <li>
-        <a routerLink="validation">
-            <i class="material-icons">check</i>Validation des resultats
-        </a>
-    </li>
-
-
-</ul>
-
-
-
-
-
-
-
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>
+</div>

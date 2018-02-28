@@ -1,0 +1,35 @@
+/*-------  tableau de bord ---------*/
+.my-titre{
+    margin-left: 30px;
+}
+.card-icone i{
+    color: white !important;
+    font-size: 4rem;
+    position: relative;
+    top: 20px;
+}
+.card-chiffre{
+    color: white !important;
+    font-size: 1.5rem;
+    text-align: right;
+    position: relative;
+    top:6px;
+    word-wrap: break-word;
+}
+.card-chiffre span{
+   font-size: 2rem;
+   word-wrap: break-word;
+}
+.card-detail-text{
+    color: white !important;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+    margin:0 !important;
+    word-wrap: break-word;
+}
+
+.card-panel.row{
+    cursor: pointer !important;
+}
+/*------- fin tableau de bord ------*/

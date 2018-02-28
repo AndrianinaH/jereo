@@ -1,0 +1,32 @@
+<div class="body centreo {{bgColor}}">
+    <div class="section"></div>
+  
+    <h5 class="{{color}}-text text-darken-3">Connectez-vous</h5>
+    <div class="section"></div>
+
+    <div class="container">
+      <div class="z-depth-1 grey lighten-4 row login-box">
+          <div class='row'>
+            <div class='input-field col s12'>
+              <input class='' type='email' name='email' id='email'>
+              <label for='email'>Pseudo</label>
+            </div>
+          </div>
+          <div class='row'>
+            <div class='input-field col s12'>
+              <input class='validate' type='password' name='mdp' id='password'>
+              <label for='password'>Mot de passe</label>
+            </div>
+          </div>
+          <br />
+          <div class="centreo">
+            <div class='row'>
+              <button type='submit' (click)="login()"  class='col s12 btn btn-large waves-effect {{color}} darken-3'>Login</button>
+            </div>
+          </div>
+      
+      </div>
+    </div>
+    <a class="{{color}}-text text-darken-3">Créer un nouveau compte</a>
+  </div>
+

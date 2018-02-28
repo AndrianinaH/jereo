@@ -1,123 +1,126 @@
 <div class="row">
-    <h5 class="my-titre indigo-text">
+    <h5 class="my-titre {{color}}-text text-darken-3">
         <b>{{titre}}</b>
     </h5>
-    <div class="col s4 carte-mada">
-        <img [src]="image" usemap="#image-map">
-
-        <map name="image-map">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Diego"
-                title="Diego" coords="364,48,335,70,344,93,333,121,314,111,314,124,313,138,304,124,295,129,295,140,303,148,313,147,319,157,340,162,350,157,366,173,371,191,387,202,394,206,400,227,401,238,409,245,415,236,424,212,411,188,408,163,405,143,399,115,387,87"
-                shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Janga"
-                title="Janga" coords="306,148,288,166,270,182,256,209,232,219,212,235,195,237,173,243,160,249,141,258,123,257,122,268,124,277,114,296,102,314,95,325,100,340,103,366,113,386,114,405,131,407,142,414,154,409,142,367,151,354,160,360,177,366,186,353,199,342,213,341,233,338,251,343,265,339,274,347,286,337,295,340,301,331,296,320,304,315,310,306,301,294,296,281,299,265,311,261,324,270,334,282,345,283,355,272,362,251,353,242,349,220,368,211,371,199,370,180,360,168,351,158,343,161,326,161"
-                shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt=""
-                title="Antananarivo" coords="180,365,176,380,175,399,181,410,190,414,188,423,189,442,204,444,213,450,217,463,240,465,258,457,274,453,284,452,290,439,296,423,299,407,299,380,302,366,298,342,284,337,271,342,258,336,238,337,216,338,198,343,187,350"
-                shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Fianara"
-                title="Fianara" coords="189,445,191,474,188,506,177,521,171,536,161,546,166,558,159,569,153,584,148,595,164,603,171,594,177,587,191,584,205,582,217,600,226,613,225,624,221,632,225,641,232,646,240,653,244,661,255,658,255,649,271,653,280,638,283,621,294,580,304,547,317,518,330,469,312,460,304,465,293,467,286,459,287,450,258,456,243,466,223,460,207,444"
-                shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Tamatave"
-                title="Tamatave" coords="371,191,370,206,352,215,355,231,358,247,360,261,351,275,333,280,317,262,299,266,297,282,305,294,312,304,302,316,298,322,298,335,300,362,298,390,295,415,293,437,285,449,286,463,296,466,306,460,317,462,328,468,342,449,350,409,369,357,376,333,369,317,381,292,390,289,390,302,402,283,388,279,393,259,382,251,385,242,379,225,394,220,401,229,401,210"
-                shape="poly">
-            <area (mouseover)="changeImage($event)" (mouseout)="resetImage($event)" (click)="detailProvince($event)" target="" alt="Tulear"
-                title="Tulear" coords="118,405,123,424,119,436,124,446,108,473,89,510,73,513,73,529,60,549,68,572,72,595,84,606,83,634,85,666,95,672,100,690,117,709,149,718,158,724,181,724,197,713,213,706,229,704,244,702,256,693,269,652,256,649,251,660,246,655,222,639,223,626,224,614,203,584,184,584,170,600,150,592,163,557,161,545,168,538,176,529,188,506,190,479,191,443,187,422,190,407,180,401,175,388,174,377,183,360,149,358,143,364,148,381,154,404,150,411,139,413"
-                shape="poly">
-        </map>
-    </div>
-    <div class="col s7 my-s7">
-        <div class="row">
-            <div class="col s12 m6 l4">
-                <div class="card-panel blue darken-3 row">
-                    <div class="col s3 my-icon">
-                        <h1>
-                            <i class="material-icons white-text large">people</i>
-                        </h1>
-                    </div>
-                    <div class="col s9">
-                        <p class="card-chiffre card-nombre">{{total + 45000 | number}}</p>
-                    </div>
-                    <div class="col s12">
-                        <p class="card-detail-text">Total Electeur(s)</p>
-                    </div>
-                </div>
+    <div class="col s12 m6 l4">
+        <div class="centreo">
+            <button class="btn amber">
+                <i class="material-icons">edit</i>
+            </button>
+            <button class="btn red">
+                <i class="material-icons">delete</i>
+            </button>
+        </div>
+        <div class="card-panel amber darken-1 row" (click)="voirDetail('amber','Vazo milay')">
+            <div class="col s3 card-icone">
+                <i class="material-icons">video_library</i>
             </div>
-            <div class="col s12 m6 l4">
-                <div class="card-panel green row">
-                    <div class="col s4 my-icon">
-                        <h1>
-                            <i class="material-icons white-text large">check</i>
-                        </h1>
-                    </div>
-                    <div class="col s8">
-                        <p class="card-chiffre">{{percent | number:'2.1-1'}}%</p>
-                    </div>
-                    <div class="col s12">
-                        <p class="card-detail-text">Vote</p>
-                    </div>
-                </div>
+            <div class="col s9">
+                <p class="card-chiffre">
+                    <span>3</span> Video(s)</p>
             </div>
-            <div class="col s12 m6 l4">
-                <div class="card-panel red row hoverable">
-                    <div class="col s4 my-icon">
-                        <h1>
-                            <i class="material-icons white-text large">close</i>
-                        </h1>
-                    </div>
-                    <div class="col s8">
-                        <p class="card-chiffre">{{ abstinance | number:'2.1-1' }}%</p>
-                    </div>
-                    <div class="col s12">
-                        <p class="card-detail-text">Abstinant</p>
-                    </div>
-                </div>
+            <div class="col s12">
+                <p class="card-detail-text">Vazo milay</p>
             </div>
         </div>
-        <!-- fin row -->
     </div>
-    <!-- fin cols7 -->
-    <div class="col s8 my-s7">
-        <table class="highlight centered responsive-table">
-            <thead class="teal darken-3">
-                <tr>
-                    <th>Candidat</th>
-                    <th>Mouvance</th>
-                    <th>nombre de vote</th>
-                    <th>pourcentage de vote</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let c of data.candidatList">
-                    <td>
-                        <b>{{ c.candidat.representant }}</b>
-                    </td>
-                    <td>
-                        {{ c.candidat.mouvance }}
-                    </td>
-                    <td>
-                        {{ c.nombre }}
-                    </td>
-                    <td>
-                        {{ getPourcentage(c.nombre) | number }}%
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <b>Vote Blanc</b>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        {{ data.blanc }}
-                    </td>
-                    <td>
-                        {{ getPourcentage(data.blanc) | number}}%
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
+    <!-- fin col s12 m6 l4 -->
+    <div class="col s12 m6 l4">
+        <div class="centreo">
+            <button class="btn amber">
+                <i class="material-icons">edit</i>
+            </button>
+            <button class="btn red">
+                <i class="material-icons">delete</i>
+            </button>
+        </div>
+        <div class="card-panel indigo darken-1 row" (click)="voirDetail('indigo','Dota wtf moment')">
+            <div class="col s3 card-icone">
+                <i class="material-icons">video_library</i>
+            </div>
+            <div class="col s9">
+                <p class="card-chiffre">
+                    <span>45</span> Video(s)</p>
+            </div>
+            <div class="col s12">
+                <p class="card-detail-text">Dota wtf moment</p>
+            </div>
+        </div>
     </div>
+    <!-- fin col s12 m6 l4 -->
+    <div class="col s12 m6 l4">
+        <div class="centreo">
+            <button class="btn amber">
+                <i class="material-icons">edit</i>
+            </button>
+            <button class="btn red">
+                <i class="material-icons">delete</i>
+            </button>
+        </div>
+        <div class="card-panel grey darken-1 row" (click)="voirDetail('grey', 'dota major 2018')">
+            <div class="col s3 card-icone">
+                <i class="material-icons">video_library</i>
+            </div>
+            <div class="col s9">
+                <p class="card-chiffre">
+                    <span>15</span> Video(s)</p>
+            </div>
+            <div class="col s12">
+                <p class="card-detail-text">dota major 2018</p>
+            </div>
+        </div>
+    </div>
+    <!-- fin col s12 m6 l4 -->
+    <div class="col s12 m6 l4">
+        <div class="centreo">
+            <button class="btn amber">
+                <i class="material-icons">edit</i>
+            </button>
+            <button class="btn red">
+                <i class="material-icons">delete</i>
+            </button>
+        </div>
+        <div class="card-panel cyan darken-1 row" (click)="voirDetail('cyan', 'Tutoriel angular5')">
+            <div class="col s3 card-icone">
+                <i class="material-icons">video_library</i>
+            </div>
+            <div class="col s9">
+                <p class="card-chiffre">
+                    <span>4</span> Video(s)</p>
+            </div>
+            <div class="col s12">
+                <p class="card-detail-text">Tutoriel angular5</p>
+            </div>
+        </div>
+    </div>
+    <!-- fin col s12 m6 l4 -->
+</div>
+<div class="fixed-action-btn">
+    <button class="btn-floating btn-large waves-effect z-depth-3 waves-light blue darken-3">
+        <i class="material-icons">add</i>
+    </button>
 </div>
 <!-- fin row -->
+
+<!-- modal ajouter -->
+<div class="modal">
+    <div class="modal-content">
+        <h5 class="center {{addColor}}-text">Ajouter une playlist</h5>
+        <div class="input-field">
+            <input id="playlist" name="playlist" type="text" required>
+            <label for="playlist">Père</label>
+        </div>
+        <div class="input-field">
+            <label for="priorite">Couleur</label>
+            <select id="priorite" materialize="material_select">
+                <option value="">choisissez une couleur</option>
+                <option *ngFor="let i of [1,2,3]" [value]="i">{{i}}</option>
+            </select>
+        </div>
+        <div class="centreo">
+            <button type="submit" class="btn green darken-1">
+                <i class="material-icons left">done</i>Enregistrer
+            </button>
+        </div>
+    </div>
+</div>
