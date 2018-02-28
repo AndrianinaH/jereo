@@ -22,6 +22,8 @@ app.use(bodyParser.json())
   next(); 
 })
 
+.use(express.static(__dirname + '/dist'))
+
 //-------------- controller ----------------//
 // .use('/', index)
 .use('/', webservice)
