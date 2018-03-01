@@ -4,11 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { LoginComponent } from './login/login.component';
+import { MenuComponent } from './menu/menu.component';
+import { SigninComponent } from './signin/signin.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'signin', component: SigninComponent },
   { path: 'playlist/:couleur/:playlist', component: PlaylistComponent },
  
 ];
@@ -26,7 +29,10 @@ export class AppRoutingModule {
 
 export const appRoutingComponents = [
     DashboardComponent,
-    PlaylistComponent
+    PlaylistComponent,
+    LoginComponent,
+    MenuComponent,
+    SigninComponent
 ];
 
 

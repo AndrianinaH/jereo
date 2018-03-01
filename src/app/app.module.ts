@@ -13,15 +13,12 @@ import { PubNubAngular } from 'pubnub-angular2';
 
 import { AppComponent } from './app.component';
 import { appRoutingComponents, AppRoutingModule } from './app-routing.module';
-import { AuthService } from './service/auth.service';
-import { LoginComponent } from './login/login.component';
-
+import { AuthService } from './service/auth-service/auth-service';
 
 @NgModule({
   declarations: [
     AppComponent,
     appRoutingComponents,
-    LoginComponent,
   ],
   imports: [
     BrowserModule,

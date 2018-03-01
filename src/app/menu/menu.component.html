@@ -1,0 +1,68 @@
+<!-------- menu principal  ---------->
+<header>
+  <div class="navbar">
+    <nav class="nav-extended {{color}} darken-3">
+      <div class="nav-wrapper">
+        <a data-activates="slide-out" class="button-collapse white-text" materialize="sideNav">
+          <i class="material-icons">menu</i>
+        </a>
+        <a class="brand-logo center white-text" routerLink="/dashboard">
+          <strong>{{title}}</strong>
+        </a>
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <a class="white-text" (click)="deconnexion()">Déconnexion</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+<!---------- menu latéral ---------->
+<ul id="slide-out" class="side-nav fixed">
+  <li>
+    <div class="userView">
+      <div class="background">
+        <img src="/assets/images/office2.jpg">
+      </div>
+      <div class="centreo">
+        <a>
+          <span class="circle nom_badge {{badgeColor}} white-text">{{getInitial(user.pseudo)}}</span>
+        </a>
+        <a>
+          <span class="white-text name">{{user.pseudo}}</span>
+        </a>
+        <a>
+          <span class="white-text email">{{user.email}}</span>
+        </a>
+      </div>
+
+    </div>
+  </li>
+  <li>
+    <a routerLink="/dashboard" class="{{color}}-text text-darken-3">
+      <i class="material-icons {{color}}-text text-darken-3">dashboard</i>Dashboard
+    </a>
+  </li>
+  <li>
+    <div class="divider"></div>
+  </li>
+  <li class="no-padding">
+    <ul class="collapsible collapsible-accordion">
+      <li>
+        <a class="collapsible-header {{color}}-text text-darken-3">Archives
+          <i class="material-icons {{color}}-text text-darken-3">archives</i>
+        </a>
+        <div class="collapsible-body">
+          <ul>
+            <li>
+              <a class="{{color}}-text text-darken-3">
+                <i class="material-icons {{color}}-text text-darken-3">videocam_off</i> Playlists supprimer
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </li>
+</ul>

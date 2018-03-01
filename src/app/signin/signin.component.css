@@ -2,7 +2,6 @@
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    overflow: hidden;
 }
 .login-box{
     display: inline-block; 
@@ -24,7 +23,6 @@
     border-bottom: 2px solid #e91e63;
     box-shadow: none;
 }
-
 
 .input-field.col.s12 > p{
     color:red;

@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from '../service/auth-service/auth-service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-signin',
+  templateUrl: './signin.component.html',
+  styleUrls: ['./signin.component.css']
 })
-export class LoginComponent {
+export class SigninComponent implements OnInit {
+
   private title: string = 'Jereo';
   private color: string = 'red';
   private bgColor: string = 'amber lighten-5';
@@ -20,12 +21,11 @@ export class LoginComponent {
 
   }
 
-  ngOnInit(){}
+  ngOnInit() {
+  }
 
-  login(){
-    if(this.auth.login()){
-      this.router.navigate(['dashboard']);
-    }
+  signin(){
+    this.router.navigate(['login']);
   }
 
 }

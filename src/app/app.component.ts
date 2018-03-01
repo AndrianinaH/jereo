@@ -1,33 +1,14 @@
-import { Component } from '@angular/core';
-import { RouterModule, Routes,Router } from '@angular/router';
-import { AuthService } from './service/auth.service';
-import { Location } from '@angular/common';
-// // "start": "ng serve",
-// "start": "node app.js"
+import { Component,OnInit } from '@angular/core';
+import { RouterModule, Routes} from '@angular/router';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+
 })
-export class AppComponent {
-  public title: string = 'Jereo';
-  public color: string = 'red';
-  public badgeColor : string = 'amber';
-  public isConnected : boolean = false;
+export class AppComponent{
 
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public location: Location
-  ) {}
-
-  ngOnInit():void{
-    this.isConnected = this.auth.isConnected();
-  }
-
-  deconnexion(){
-    this.auth.deconnexion();
-    this.location.back();
-  }
+  constructor() { }
 }
 

@@ -11,28 +11,40 @@
 <div class="body centreo {{bgColor}}">
   <div class="section"></div>
 
-  <h5 class="{{color}}-text text-darken-3">Connectez-vous</h5>
+  <h5 class="{{color}}-text text-darken-3">Inscrivez-vous</h5>
   <div class="section"></div>
 
   <div class="container">
     <div class="z-depth-1 grey lighten-4 row login-box">
+
+      <div class='input-field col s12'>
+        <input class='' type='text' name='pseudo' id='pseudo'>
+        <label for='pseudo'>Pseudo</label>
+      </div>
+
       <div class='input-field col s12'>
         <input class='' type='email' name='email' id='email'>
-        <label for='email'>Adresse email</label>
+        <label for='email'>Adresse Email</label>
       </div>
+
       <div class='input-field col s12'>
         <input class='validate' type='password' name='mdp' id='password'>
         <label for='password'>Mot de passe</label>
       </div>
+
+      <div class='input-field col s12'>
+        <input class='validate' type='password' name='confmdp' id='confpassword'>
+        <label for='confpassword'>Confirmer le mot de passe</label>
+      </div>
       <div class="my-divider"></div>
-      <br>
+      <br />
       <div class="centreo">
         <div class='row'>
-          <button type='submit' (click)="login()" class='col s12 btn btn-large waves-effect {{color}} darken-3'>Se Connecter</button>
+          <button type='submit' (click)="signin()" class='col s12 btn btn-large waves-effect {{color}} darken-3'>S'inscrire</button>
         </div>
       </div>
 
     </div>
   </div>
-  <a class="{{color}}-text text-darken-3" routerLink="/signin">Créer un nouveau compte</a>
+  <a class="{{color}}-text text-darken-3" routerLink="/login">Déjà inscrit, se connecter</a>
 </div>

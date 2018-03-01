@@ -2,6 +2,10 @@
 .side-nav .divider {
  margin: 8px 0 8px 0 !important;
 }
+.my-divider{
+    overflow: hidden;
+    padding: 5px;
+}
 a{
     cursor: pointer ;
 }
@@ -41,7 +45,32 @@ header, main {
     } 
 }
 /*-------- fin sidenav ----------*/
+.my-titre{
+    margin-left: 30px;
+}
 
+@media only screen and (max-width: 992px){
+    .hide-on-med-and-down {
+        display: block !important;
+    }
+}
+
+#ajax-loader{
+    /* text-align:center;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,0.9);
+    z-index:3; */
+ }
+ #ajax-loader{
+    text-align: center;
+    margin-top:10%;
+    color:#aaa;
+ }
+ #ajax-loader > p{
+     font-weight: bold;
+ }
 
 
 
