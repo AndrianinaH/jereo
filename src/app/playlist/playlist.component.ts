@@ -9,9 +9,9 @@ import { AuthService } from '../service/auth-service/auth-service';
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
-  private titre: string;
-  private color: string;
-  private addColor: string = 'indigo';
+  public titre: string;
+  public color: string;
+  public addColor: string = 'indigo';
 
   constructor(
     private auth : AuthService,

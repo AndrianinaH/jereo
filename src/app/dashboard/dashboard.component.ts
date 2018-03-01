@@ -9,9 +9,9 @@ import { AuthService } from '../service/auth-service/auth-service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  private titre: string = "Dashboard";
-  private color: string = 'red';
-  private addColor: string = 'indigo';
+  public titre: string = "Dashboard";
+  public color: string = 'red';
+  public addColor: string = 'indigo';
 
   constructor(
     private auth : AuthService,

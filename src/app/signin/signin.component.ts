@@ -9,9 +9,9 @@ import { AuthService } from '../service/auth-service/auth-service';
 })
 export class SigninComponent implements OnInit {
 
-  private title: string = 'Jereo';
-  private color: string = 'red';
-  private bgColor: string = 'amber lighten-5';
+  public title: string = 'Jereo';
+  public color: string = 'red';
+  public bgColor: string = 'amber lighten-5';
 
   constructor(
     public auth: AuthService,

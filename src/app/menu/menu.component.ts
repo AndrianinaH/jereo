@@ -9,12 +9,12 @@ import { AppComponent } from '../app.component';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  private title: string = 'Jereo';
-  private color: string = 'red';
-  private badgeColor : string = 'amber';
+  public title: string = 'Jereo';
+  public color: string = 'red';
+  public badgeColor : string = 'amber';
 
-  private isConnected: boolean = false;
-  private user : any = {};
+  public isConnected: boolean = false;
+  public user : any = {};
 
   constructor(
     private auth: AuthService,
