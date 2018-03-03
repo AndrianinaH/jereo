@@ -2,8 +2,10 @@ let express = require('express');
 let path = require('path');
 let bodyParser = require('body-parser');
 let session = require('cookie-session');
-// let index = require('./routes/index');
 let webservice = require('./routes/webservice');
+let utilisateurApi = require('./routes/utilisateurApi');
+let playlistApi = require('./routes/playlistApi');
+let videoApi = require('./routes/videoApi');
 
 let app = express();
 
@@ -25,7 +27,10 @@ app.use(bodyParser.json())
 .use(express.static(__dirname + '/dist'))
 
 //-------------- controller ----------------//
-// .use('/', index)
+.use('/', utilisateurApi)
+.use('/', playlistApi)
+.use('/', videoApi)
+
 .use('/', webservice)
 app.listen(process.env.PORT || 3000);
 
