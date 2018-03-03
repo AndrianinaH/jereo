@@ -12,22 +12,27 @@ export class DashboardComponent implements OnInit {
   public titre: string = "Dashboard";
   public color: string = 'red';
   public addColor: string = 'indigo';
+  public allPlaylist: any = [];
+  public preloader : boolean = true;
 
   constructor(
-    private auth : AuthService,
+    private auth: AuthService,
     private dashboardService: DashboardServiceProvider,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private router: Router
-  ){
-
-  }
+  ) { }
 
   ngOnInit() {
-    
+    this.dashboardService.getPlaylistByIdUser().then((result: any) => {
+      this.allPlaylist = result;
+      this.preloader = false;
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 
   //------------------ voir les détails de la playlist
-  voirDetail(couleur, playlistName){
-    this.router.navigate(['playlist',couleur,playlistName]);
+  voirDetail(couleur, playlistName) {
+    this.router.navigate(['playlist', couleur, playlistName]);
   }
 }

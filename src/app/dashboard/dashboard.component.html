@@ -4,99 +4,36 @@
     <h5 class="my-titre {{color}}-text text-darken-3">
         <b>{{titre}}</b>
     </h5>
-    <div id="ajax-loader"><img src="/assets/images/rubickspreloader.gif" /><p>Chargement en cours ...</p></div>
-    <div class="col s12 m6 l4">
-        <div class="centreo">
-            <button class="btn amber">
-                <i class="material-icons">edit</i>
-            </button>
-            <button class="btn red">
-                <i class="material-icons">delete</i>
-            </button>
+    <div id="ajax-loader" *ngIf="preloader"><img src="/assets/images/rubickspreloader.gif" /><p>Chargement en cours ...</p></div>
+    <div *ngIf="allPlaylist.length != 0">
+        <div class="col s12 m6 l4" *ngFor="let playlist of allPlaylist">
+            <div class="centreo">
+                <button class="btn amber">
+                    <i class="material-icons">edit</i>
+                </button>
+                <button class="btn red">
+                    <i class="material-icons">delete</i>
+                </button>
+            </div>
+            <div class="card-panel {{playlist.couleur}} darken-1 row" (click)="voirDetail(playlist.couleur,playlist.titre)">
+                <div class="col s3 card-icone">
+                    <i class="material-icons">video_library</i>
+                </div>
+                <div class="col s9">
+                    <p class="card-chiffre">
+                        <span>{{playlist.nbrVideo}}</span> Video(s)</p>
+                </div>
+                <div class="col s12">
+                    <p class="card-detail-text">{{playlist.titre}}</p>
+                </div>
+            </div>
         </div>
-        <div class="card-panel amber darken-1 row" (click)="voirDetail('amber','Vazo milay')">
-            <div class="col s3 card-icone">
-                <i class="material-icons">video_library</i>
-            </div>
-            <div class="col s9">
-                <p class="card-chiffre">
-                    <span>3</span> Video(s)</p>
-            </div>
-            <div class="col s12">
-                <p class="card-detail-text">Vazo milay</p>
-            </div>
-        </div>
+        <!-- fin col s12 m6 l4 -->
     </div>
-    <!-- fin col s12 m6 l4 -->
-    <div class="col s12 m6 l4">
-        <div class="centreo">
-            <button class="btn amber">
-                <i class="material-icons">edit</i>
-            </button>
-            <button class="btn red">
-                <i class="material-icons">delete</i>
-            </button>
-        </div>
-        <div class="card-panel indigo darken-1 row" (click)="voirDetail('indigo','Dota wtf moment')">
-            <div class="col s3 card-icone">
-                <i class="material-icons">video_library</i>
-            </div>
-            <div class="col s9">
-                <p class="card-chiffre">
-                    <span>45</span> Video(s)</p>
-            </div>
-            <div class="col s12">
-                <p class="card-detail-text">Dota wtf moment</p>
-            </div>
-        </div>
+    <div *ngIf="allPlaylist.length == 0 && !preloader" class="vide valign-wrapper">
+        <p>Vous n'avez pas encore de playlist</p>
     </div>
-    <!-- fin col s12 m6 l4 -->
-    <div class="col s12 m6 l4">
-        <div class="centreo">
-            <button class="btn amber">
-                <i class="material-icons">edit</i>
-            </button>
-            <button class="btn red">
-                <i class="material-icons">delete</i>
-            </button>
-        </div>
-        <div class="card-panel grey darken-1 row" (click)="voirDetail('grey', 'dota major 2018')">
-            <div class="col s3 card-icone">
-                <i class="material-icons">video_library</i>
-            </div>
-            <div class="col s9">
-                <p class="card-chiffre">
-                    <span>15</span> Video(s)</p>
-            </div>
-            <div class="col s12">
-                <p class="card-detail-text">dota major 2018</p>
-            </div>
-        </div>
-    </div>
-    <!-- fin col s12 m6 l4 -->
-    <div class="col s12 m6 l4">
-        <div class="centreo">
-            <button class="btn amber">
-                <i class="material-icons">edit</i>
-            </button>
-            <button class="btn red">
-                <i class="material-icons">delete</i>
-            </button>
-        </div>
-        <div class="card-panel cyan darken-1 row" (click)="voirDetail('cyan', 'Tutoriel angular5')">
-            <div class="col s3 card-icone">
-                <i class="material-icons">video_library</i>
-            </div>
-            <div class="col s9">
-                <p class="card-chiffre">
-                    <span>4</span> Video(s)</p>
-            </div>
-            <div class="col s12">
-                <p class="card-detail-text">Tutoriel angular5</p>
-            </div>
-        </div>
-    </div>
-    <!-- fin col s12 m6 l4 -->
+  
 </main>
 <div class="fixed-action-btn">
     <button class="btn-floating btn-large waves-effect z-depth-3 waves-light blue darken-3">

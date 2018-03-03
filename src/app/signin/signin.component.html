@@ -16,35 +16,62 @@
 
   <div class="container">
     <div class="z-depth-1 grey lighten-4 row login-box">
-
-      <div class='input-field col s12'>
-        <input class='' type='text' name='pseudo' id='pseudo'>
-        <label for='pseudo'>Pseudo</label>
-      </div>
-
-      <div class='input-field col s12'>
-        <input class='' type='email' name='email' id='email'>
-        <label for='email'>Adresse Email</label>
-      </div>
-
-      <div class='input-field col s12'>
-        <input class='validate' type='password' name='mdp' id='password'>
-        <label for='password'>Mot de passe</label>
-      </div>
-
-      <div class='input-field col s12'>
-        <input class='validate' type='password' name='confmdp' id='confpassword'>
-        <label for='confpassword'>Confirmer le mot de passe</label>
-      </div>
-      <div class="my-divider"></div>
-      <br />
-      <div class="centreo">
-        <div class='row'>
-          <button type='submit' (click)="signin()" class='col s12 btn btn-large waves-effect {{color}} darken-3'>S'inscrire</button>
+      <form [formGroup]="signinForm" (ngSubmit)="signin()">
+        <div class='input-field col s12'>
+          <input type='text' id='pseudo' [(ngModel)]="newUser.pseudo" formControlName="pseudo">
+          <label for='pseudo'>Pseudo</label>
         </div>
-      </div>
 
+        <div class='input-field col s12'>
+          <input type='email' id='email' [(ngModel)]="newUser.email" formControlName="email">
+          <label for='email'>Adresse Email</label>
+        </div>
+
+        <div class='input-field col s12'>
+          <input type='password' id='password' [(ngModel)]="newUser.password" formControlName="password">
+          <label for='password'>Mot de passe</label>
+        </div>
+
+        <div class='input-field col s12'>
+          <input type='password' id='confirmPassword' [(ngModel)]="newUser.confirmPassword" formControlName="confirmPassword">
+          <label for='confirmPassword'>Confirmer le mot de passe</label>
+        </div>
+        <div class="my-divider"></div>
+        <br />
+        <div class="centreo">
+          <div class='row'>
+            <button type='submit' class='col s12 btn btn-large waves-effect {{color}} darken-3' [disabled]="!signinForm.valid">S'inscrire</button>
+          </div>
+        </div>
+      </form>
     </div>
-  </div>
-  <a class="{{color}}-text text-darken-3" routerLink="/login">Déjà inscrit, se connecter</a>
+    <!-- form validation error zone -->
+    <p class="red-text text-darken-2">{{error}}</p>
+     <!------ pseudo error -------->
+     <div *ngIf="signinForm.controls.pseudo.errors && (signinForm.controls.pseudo.dirty || signinForm.controls.pseudo.touched)">
+      <p class="red-text text-darken-2" [hidden]="!signinForm.controls.pseudo.errors">
+        Le champs Pseudo est vide
+      </p>
+    </div>
+    <!------ email error -------->
+    <div *ngIf="signinForm.controls.email.errors && (signinForm.controls.email.dirty || signinForm.controls.email.touched)">
+      <p class="red-text text-darken-2" [hidden]="!signinForm.controls.email.errors">
+        Le champs Adresse email est invalide
+      </p>
+    </div>
+    <!------ password error -------->
+    <div *ngIf="signinForm.controls.password.errors && (signinForm.controls.password.dirty || signinForm.controls.password.touched)">
+      <p class="red-text text-darken-2" [hidden]="!signinForm.controls.password.errors">
+        Le champs Mot de passe est vide
+      </p>
+    </div>
+     <!------ confirmPassword error -------->
+     <div *ngIf="signinForm.controls.confirmPassword.errors && (signinForm.controls.confirmPassword.dirty || signinForm.controls.confirmPassword.touched)">
+      <p class="red-text text-darken-2" [hidden]="!signinForm.controls.confirmPassword.errors">
+        Le champs Confirmer le mot de passe est vide
+      </p>
+    </div>
+</div>
+<!-- fin container -->
+<a class="{{color}}-text text-darken-3" routerLink="/login">Déjà inscrit, se connecter</a>
 </div>

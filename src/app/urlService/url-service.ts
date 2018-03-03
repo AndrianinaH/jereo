@@ -4,32 +4,55 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UrlServiceProvider {
 
-    // private baseUrl: string = "http://192.168.43.223:8080/dashboard/";
-    private baseUrl: string = "http://localhost:8080/dashboard/";
+    private baseUrl: string = "http://localhost:3000/api/";
+    // private baseUrl: string = "https://m1p5mean-26-andrianina.herokuapp.com/api/";
 
-    validateResultUrl(id: string): string {
-        return this.baseUrl + "validate?id=" + id;
+
+    //--------------------- Authentification
+    login() : string{
+        return this.baseUrl + "login";
     }
 
-    getResultatsNonValidesUrl(bool: boolean): string {
-        return  this.baseUrl + "findByValidation?valide=" + bool;
+    signin() : string{
+        return this.baseUrl + "signin";
     }
 
-    getDashboardUrl(): string {
-        return this.baseUrl;
+    //------------------- Playlist
+    getPlaylistByIdUser(idUser : string) : string{
+        return this.baseUrl + "playlist/" + idUser;
     }
 
-    getProvinceUrl(province): string {
-        return this.baseUrl + "province?province=" + province;
+    getPlaylistDeleteByIdUser(idUser : string) : string{
+        return this.baseUrl + "playlistDelete/" + idUser;
+    }
+    
+    getPlaylist() : string{
+        return this.baseUrl + "playlist";
     }
 
-    getRegionUrl(region): string {
-        return this.baseUrl + "region?region=" + region;
+    deletePlaylistById(id :string) : string{
+        return this.baseUrl + "playlist/" + id;
     }
 
-    getDistrictUrl(district): string {
-        return this.baseUrl + "district?district=" + district;
+    //------------------- Video
+    getVideoByIdPlaylist(idPlaylist : string) : string{
+    return this.baseUrl + "video/" + idPlaylist;
     }
+
+    getVideoDeleteByIdPlaylist(idPlaylist : string) : string{
+        return this.baseUrl + "videoDelete/" + idPlaylist;
+    }
+    
+    getVideo() : string{
+        return this.baseUrl + "video";
+    }
+
+    deleteVideoById(id :string) : string{
+        return this.baseUrl + "video/" + id;
+    }
+
+
+   
 
 
 }

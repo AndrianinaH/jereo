@@ -69,7 +69,16 @@ header, main {
     color:#aaa;
  }
  #ajax-loader > p{
-     font-weight: bold;
+    font-weight: bold;
+ }
+
+ .vide{
+    height: 400px;
+ }
+ .vide p{
+    color: #000;
+    text-align: center;
+    width: 100%;
  }
 
 

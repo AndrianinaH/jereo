@@ -2,7 +2,7 @@ let express = require('express');
 let path = require('path');
 let bodyParser = require('body-parser');
 let session = require('cookie-session');
-let webservice = require('./routes/webservice');
+
 let utilisateurApi = require('./routes/utilisateurApi');
 let playlistApi = require('./routes/playlistApi');
 let videoApi = require('./routes/videoApi');
@@ -31,6 +31,5 @@ app.use(bodyParser.json())
 .use('/', playlistApi)
 .use('/', videoApi)
 
-.use('/', webservice)
 app.listen(process.env.PORT || 3000);
 

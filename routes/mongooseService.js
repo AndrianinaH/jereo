@@ -3,7 +3,6 @@ let mongoose = require('mongoose');
 let url = 'mongodb://localhost/jereo';
 // let url = 'mongodb://layton:azerty12345@ds253918.mlab.com:53918/jereo';
 mongoose.connect(url);
-// let db = mongoose.connection;
 
 Utilisateur = require('../models/utilisateur');
 Playlist = require('../models/playlist');
@@ -15,19 +14,40 @@ exports.Login = function(res,utilisateur){
     Utilisateur.getUtilisateur(utilisateur,function(err, user){
         if(err) res.json({"status":"ko"});
         else{
-            if(user == null)res.json({"status":"ko"});
-            else res.json(user); 
+            if(user == null) res.json({"status":"ko"});
+            else {
+                let newUser = {
+                    "_id" : user._id,
+                    "pseudo" : user.pseudo,
+                    "email" : user.email
+                }
+                res.json(newUser); 
+            }
         }
     });
 }
 //-------- signin
 exports.Signin = function(res,utilisateur){
-    Utilisateur.createUtilisateur(utilisateur,function(err, user){
+    Utilisateur.getUtilisateur(utilisateur,function(err,user){
         if(err) res.json({"status":"ko"});
         else{
-            res.json(user);
+            if(user != null) res.json({"status":"exist"});
+            else {
+                Utilisateur.createUtilisateur(utilisateur,function(err, user){
+                    if(err) res.json({"status":"ko"});
+                    else{
+                        let newUser = {
+                            "_id" : user._id,
+                            "pseudo" : user.pseudo,
+                            "email" : user.email
+                        }
+                        res.json(newUser); 
+                    }
+                });
+            }
         }
     });
+  
 }
 
 //--------------------------- Playlist Service ------------------------------//
@@ -37,7 +57,28 @@ exports.GetPlaylist = function(res,idUser){
     Playlist.getPlaylist(playlist,function(err, playlists){
         if(err) res.json({"status":"ko"});
         else{
-            res.json(playlists);
+            if(playlists.length != 0){
+                for (let i = 0; i < playlists.length; i++)  {
+                    let video = {"idPlaylist":playlists[i]._id, "etat": 1}; 
+                    Video.getVideo(video,function(err, videos){
+                        let newPlaylist = {
+                            "_id" : playlists[i]._id,
+                            "titre" : playlists[i].titre,
+                            "couleur" : playlists[i].couleur,
+                            "etat" : playlists[i].etat,
+                            "nbrVideo" : videos.length,
+                        }
+                        playlists[i] = newPlaylist;
+                        if(i == playlists.length-1 ) { // parce qu on est en asyncrhone
+                            res.json(playlists);
+                        }    
+                    });
+                }
+            }
+            else{
+                res.json(playlists);
+            }
+           
         }
     });
 }
