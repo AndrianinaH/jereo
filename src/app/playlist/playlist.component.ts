@@ -31,7 +31,7 @@ export class PlaylistComponent implements OnInit {
   ngOnInit() {
     //-------------- recuperation des parametres
     this.route.params.subscribe(res => {
-      this.playlist = JSON.parse(res.playlist);
+      this.playlist = JSON.parse(atob(res.playlist));
       this.titre = this.playlist.titre;
       this.color = this.playlist.couleur;
     });
