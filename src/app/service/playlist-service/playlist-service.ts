@@ -25,5 +25,35 @@ export class PlaylistServiceProvider {
         });
     }
 
+    createVideoByIdPlaylist(data): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(this.urlProvider.getVideo(), data, { headers: this.headers }).subscribe(res => {
+                resolve(res);
+            }, err => {
+                reject(err);
+            });
+        });
+    }
+
+    updateVideoByIdPlaylist(data): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.put(this.urlProvider.getVideo(), data, { headers: this.headers }).subscribe(res => {
+                resolve(res);
+            }, err => {
+                reject(err);
+            });
+        });
+    }
+
+    deleteVideoById(id): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.delete(this.urlProvider.deleteVideoById(id), { headers: this.headers }).subscribe(res => {
+                resolve(res);
+            }, err => {
+                reject(err);
+            });
+        });
+    }
+
 
 }

@@ -45,7 +45,7 @@ export class DashboardServiceProvider {
         });
     }
 
-    deletePlaylistByIdUser(id): Promise<any> {
+    deletePlaylistById(id): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.delete(this.urlProvider.deletePlaylistById(id), { headers: this.headers }).subscribe(res => {
                 resolve(res);

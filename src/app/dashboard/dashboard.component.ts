@@ -145,7 +145,7 @@ export class DashboardComponent implements OnInit {
 
   //------------------ supprimer une playlist
   supprimerPlaylist(id) {
-    this.dashboardService.deletePlaylistByIdUser(id).then((result: any) => {
+    this.dashboardService.deletePlaylistById(id).then((result: any) => {
       this.allPlaylist = this.allPlaylist.filter(play => play._id !== id);
       this.deletePlaylist = { "id": "", "titre": "" };
       this.closeDeleteModal();
