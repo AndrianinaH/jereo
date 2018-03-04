@@ -57,28 +57,7 @@ exports.GetPlaylist = function(res,idUser){
     Playlist.getPlaylist(playlist,function(err, playlists){
         if(err) res.json({"status":"ko"});
         else{
-            if(playlists.length != 0){
-                for (let i = 0; i < playlists.length; i++)  {
-                    let video = {"idPlaylist":playlists[i]._id, "etat": 1}; 
-                    Video.getVideo(video,function(err, videos){
-                        let newPlaylist = {
-                            "_id" : playlists[i]._id,
-                            "titre" : playlists[i].titre,
-                            "couleur" : playlists[i].couleur,
-                            "etat" : playlists[i].etat,
-                            "nbrVideo" : videos.length,
-                        }
-                        playlists[i] = newPlaylist;
-                        if(i == playlists.length-1 ) { // parce qu on est en asyncrhone
-                            res.json(playlists);
-                        }    
-                    });
-                }
-            }
-            else{
-                res.json(playlists);
-            }
-           
+            res.json(playlists);
         }
     });
 }
@@ -109,7 +88,7 @@ exports.UpdatePlaylist = function(res,id,newPlaylist){
     Playlist.updatePlaylist(id,newPlaylist,function(err, playlists){
         if(err) res.json({"status":"ko"});
         else{
-            newPlaylist.id = id;
+            newPlaylist._id = id;
             res.json(newPlaylist);
         }
     });

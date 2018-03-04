@@ -12,6 +12,8 @@ export class PlaylistComponent implements OnInit {
   public titre: string;
   public color: string;
   public addColor: string = 'indigo';
+  public playlist : any = {};
+  public allVideo : any = {};
 
   constructor(
     private auth : AuthService,
@@ -23,9 +25,11 @@ export class PlaylistComponent implements OnInit {
   }
 
   ngOnInit() {
+    //-------------- recuperation des parametres
     this.route.params.subscribe(res => {
-      this.titre = res.playlist; 
-      this.color = res.couleur;
+     this.playlist = JSON.parse(res.playlist);
+      this.titre = this.playlist.titre; 
+      this.color = this.playlist.couleur;
     });
     
    

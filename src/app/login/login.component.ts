@@ -18,10 +18,10 @@ export class LoginComponent {
   public loginForm : FormGroup;
 
   constructor(
-    public auth: AuthService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public formBuilder: FormBuilder
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder
   ){
     this.loginForm = this.formBuilder.group({
       email: ['',[Validators.email,Validators.required]],
@@ -29,7 +29,9 @@ export class LoginComponent {
     });
   }
 
-  ngOnInit(){}
+  ngOnInit(){
+    if(this.auth.isConnected()) this.router.navigate(['dashboard']);
+  }
 
   login(){
     let data = 'email='+this.newUser.email+'&password='+this.newUser.password;

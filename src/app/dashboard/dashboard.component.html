@@ -4,24 +4,31 @@
     <h5 class="my-titre {{color}}-text text-darken-3">
         <b>{{titre}}</b>
     </h5>
-    <div id="ajax-loader" *ngIf="preloader"><img src="/assets/images/rubickspreloader.gif" /><p>Chargement en cours ...</p></div>
+    <div id="ajax-loader" *ngIf="preloader">
+        <img src="/assets/images/rubickspreloader.gif" />
+        <p>Chargement en cours ...</p>
+    </div>
     <div *ngIf="allPlaylist.length != 0">
-        <div class="col s12 m6 l4" *ngFor="let playlist of allPlaylist">
+        <div class="col s12 m6 l4" *ngFor="let playlist of allPlaylist ; index as i">
             <div class="centreo">
-                <button class="btn amber">
+                <button class="btn amber" (click)="updateModal(playlist)">
                     <i class="material-icons">edit</i>
                 </button>
-                <button class="btn red">
+                <button class="btn red" (click)="deleteModal(playlist)">
                     <i class="material-icons">delete</i>
                 </button>
             </div>
-            <div class="card-panel {{playlist.couleur}} darken-1 row" (click)="voirDetail(playlist.couleur,playlist.titre)">
+            <div class="card-panel {{playlist.couleur}} darken-1 row" (click)="voirDetail(playlist)">
                 <div class="col s3 card-icone">
                     <i class="material-icons">video_library</i>
                 </div>
                 <div class="col s9">
-                    <p class="card-chiffre">
-                        <span>{{playlist.nbrVideo}}</span> Video(s)</p>
+                    <p class="card-chiffre" *ngIf="(playlist.nbrVideo == undefined)">
+                        <span>{{nbrVideos[i]}}</span> Video(s)
+                    </p>
+                    <p class="card-chiffre" *ngIf="(playlist.nbrVideo != undefined)">
+                        <span>{{playlist.nbrVideo}}</span> Video(s)
+                    </p>
                 </div>
                 <div class="col s12">
                     <p class="card-detail-text">{{playlist.titre}}</p>
@@ -33,33 +40,79 @@
     <div *ngIf="allPlaylist.length == 0 && !preloader" class="vide valign-wrapper">
         <p>Vous n'avez pas encore de playlist</p>
     </div>
-  
+
 </main>
 <div class="fixed-action-btn">
-    <button class="btn-floating btn-large waves-effect z-depth-3 waves-light blue darken-3">
+    <button class="btn-floating btn-large waves-effect z-depth-3 waves-light blue darken-3" (click)="addModal()">
         <i class="material-icons">add</i>
     </button>
 </div>
 <!-- fin row -->
-
+<!-- ----------------- modal zone --------------- -->
 <!-- modal ajouter -->
-<div class="modal">
+<div class="modal" materialize="modal" [materializeActions]="modalActions">
     <div class="modal-content">
         <h5 class="center {{addColor}}-text">Ajouter une playlist</h5>
-        <div class="input-field">
-            <input id="playlist" name="playlist" type="text" required>
-            <label for="playlist">Père</label>
-        </div>
-        <div class="input-field">
-            <label for="priorite">Couleur</label>
-            <select id="priorite" materialize="material_select">
-                <option value="">choisissez une couleur</option>
-                <option *ngFor="let i of [1,2,3]" [value]="i">{{i}}</option>
-            </select>
-        </div>
+        <form [formGroup]="addForm" (ngSubmit)="createPlaylist()">
+            <div class="input-field">
+                <input id="playlist" type="text" [(ngModel)]="newPlaylist.titre" formControlName="titre">
+                <label for="playlist">nom de la playlist</label>
+            </div>
+            <div>
+                <label class="{{addColor}}-text">Couleur de la playlist</label>
+                <select [(ngModel)]="newPlaylist.couleur" formControlName="couleur">
+                    <option value="" class="{{addColor}}-text selected-option">choisissez une couleur</option>
+                    <option *ngFor="let couleur of allColor" class="{{couleur}} {{couleur}}-text" [value]="couleur">{{couleur}}</option>
+                </select>
+            </div>
+            <div class="centreo">
+                <button type="button" class="btn black" (click)="closeModal()">annuler</button>
+                <button type="submit" class="btn {{addColor}}" [disabled]="!addForm.valid">
+                    <i class="material-icons left">done</i>Enregistrer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- modal modifier -->
+<div class="modal" materialize="modal" [materializeActions]="updateActions">
+    <div class="modal-content">
+        <h5 class="center {{addColor}}-text">Modifier une playlist</h5>
+        <form [formGroup]="updateForm" (ngSubmit)="updatePlaylist()">
+            <div class="input-field">
+                <input type="hidden" [(ngModel)]="changePlaylist.id" formControlName="id">
+                <input id="playlist" placeholder="" type="text" [(ngModel)]="changePlaylist.titre" formControlName="titre">
+                <label for="playlist">nom de la playlist</label>
+            </div>
+            <div>
+                <label class="{{addColor}}-text">Couleur de la playlist</label>
+                <select [(ngModel)]="changePlaylist.couleur" formControlName="couleur">
+                    <option value="" class="{{addColor}}-text selected-option">choisissez une couleur</option>
+                    <option *ngFor="let couleur of allColor" class="{{couleur}} {{couleur}}-text" [value]="couleur">{{couleur}}</option>
+                </select>
+            </div>
+            <div class="centreo">
+                <button type="button" class="btn black" (click)="closeUpdateModal()">annuler</button>
+                <button type="submit" class="btn {{addColor}}" [disabled]="!updateForm.valid">
+                    <i class="material-icons left">done</i>Modifier
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- modal modifier -->
+<div class="modal" materialize="modal" [materializeActions]="deleteActions">
+    <div class="modal-content">
+        <h5 class="center red-text text-darken-1">Voulez vous vraiment supprimer la playlist</h5>
+        <h5 class="center red-text text-darken-1"> <strong>{{deletePlaylist.titre}}</strong> ?</h5>
+        <br>
+        <br>
         <div class="centreo">
-            <button type="submit" class="btn green darken-1">
-                <i class="material-icons left">done</i>Enregistrer
+            <button type="button" class="btn black" (click)="closeDeleteModal()">annuler</button>
+            <button type="button" class="btn red darken-1" (click)="supprimerPlaylist(deletePlaylist.id)">
+                <i class="material-icons left">delete</i>Supprimer
             </button>
         </div>
     </div>

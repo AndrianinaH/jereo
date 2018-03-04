@@ -12,7 +12,7 @@ const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signin', component: SigninComponent },
-  { path: 'playlist/:couleur/:playlist', component: PlaylistComponent },
+  { path: 'playlist/:playlist', component: PlaylistComponent },
  
 ];
 
