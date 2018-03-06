@@ -14,6 +14,8 @@ import { PubNubAngular } from 'pubnub-angular2';
 import { AppComponent } from './app.component';
 import { appRoutingComponents, AppRoutingModule } from './app-routing.module';
 import { AuthService } from './service/auth-service/auth-service';
+import { YoutubeServiceProvider } from './service/youtube-service/youtube-service';
+
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { AuthService } from './service/auth-service/auth-service';
     AuthService,
     PlaylistServiceProvider,
     DashboardServiceProvider,
+    YoutubeServiceProvider
     
   ],
   bootstrap: [AppComponent]

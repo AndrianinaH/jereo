@@ -60,7 +60,7 @@
             </div>
             <div>
                 <label class="{{addColor}}-text">Couleur de la playlist</label>
-                <select [(ngModel)]="newPlaylist.couleur" formControlName="couleur">
+                <select class="my-select" [(ngModel)]="newPlaylist.couleur" formControlName="couleur">
                     <option value="" class="{{addColor}}-text selected-option">choisissez une couleur</option>
                     <option *ngFor="let couleur of allColor" class="{{couleur}} {{couleur}}-text" [value]="couleur">{{couleur}}</option>
                 </select>
@@ -87,7 +87,7 @@
             </div>
             <div>
                 <label class="{{addColor}}-text">Couleur de la playlist</label>
-                <select [(ngModel)]="changePlaylist.couleur" formControlName="couleur">
+                <select class="my-select" [(ngModel)]="changePlaylist.couleur" formControlName="couleur">
                     <option value="" class="{{addColor}}-text selected-option">choisissez une couleur</option>
                     <option *ngFor="let couleur of allColor" class="{{couleur}} {{couleur}}-text" [value]="couleur">{{couleur}}</option>
                 </select>

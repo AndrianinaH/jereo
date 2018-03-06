@@ -6,6 +6,7 @@ import { PlaylistComponent } from './playlist/playlist.component';
 import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { SigninComponent } from './signin/signin.component';
+import { YoutubeSearchComponent } from './youtube-search/youtube-search.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'playlist/:playlist', component: PlaylistComponent },
+  { path: 'youtube-search', component: YoutubeSearchComponent },
  
 ];
 
@@ -32,7 +34,8 @@ export const appRoutingComponents = [
     PlaylistComponent,
     LoginComponent,
     MenuComponent,
-    SigninComponent
+    SigninComponent,
+    YoutubeSearchComponent,
 ];
 
 
