@@ -42,6 +42,7 @@ export class YoutubeSearchComponent implements OnInit {
   ngOnInit() {
     this.dashboardService.getPlaylistByIdUser().then((result: any) => {
       this.allPlaylist = result;
+      console.log(this.allPlaylist);
     }).catch((err) => {
       console.log(err);
     })
