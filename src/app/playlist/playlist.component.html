@@ -10,15 +10,15 @@
       <tbody>
         <tr *ngFor="let video of allVideo">
           <td>
-            <button class="btn-floating {{color}}">
+            <button class="btn-floating {{color}}"  (click)="playVideo(video.videoId)">
               <i class="material-icons">play_arrow</i>
             </button>
           </td>
           <td>
-            {{ video.titre }}
+              <img [src]="video.urlImage">
           </td>
-          <td class="playlist-lien">
-            {{ video.lien }}
+          <td>
+            {{ video.titre }}
           </td>
           <td>
             <!-- <a class="btn-flat edit">

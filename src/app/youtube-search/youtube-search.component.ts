@@ -21,7 +21,7 @@ export class YoutubeSearchComponent implements OnInit {
   public imageprovisoire: string = "/assets/images/office2.jpg";
   public addActions = new EventEmitter<string | MaterializeAction>();
   public successActions = new EventEmitter<string | MaterializeAction>();
-  public addVideo : any = {"titre" : "", "lien" : "", "idPlaylist":""};
+  public addVideo : any = {"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":""};
   public addForm: FormGroup;
 
 
@@ -49,7 +49,7 @@ export class YoutubeSearchComponent implements OnInit {
 
   searchVideo() {
     this.youtubeService.search(this.data).then((result: any) => {
-      this.allResult = result;
+      this.allResult = result.items;
       console.log(this.allResult);
     }).catch(err => {
       console.log(err);
@@ -58,8 +58,9 @@ export class YoutubeSearchComponent implements OnInit {
   //------------------ gére les modals 
   addModal(video :any) {
     this.addActions.emit({ action: "modal", params: ['open'] });
-    this.addVideo.titre = video;
-    this.addVideo.lien = video;
+    this.addVideo.videoId = video.id.videoId;
+    this.addVideo.titre = video.snippet.title;
+    this.addVideo.urlImage = video.snippet.thumbnails.default.url;
   }
   closeModal() {
     this.addActions.emit({ action: "modal", params: ['close'] });
@@ -74,18 +75,17 @@ export class YoutubeSearchComponent implements OnInit {
 
 
   ajouterVideo(){
-    console.log(this.addVideo);
-    // this.playlistService.createVideoByIdPlaylist( this.addVideo).then((result: any) => {
-    
-    // })
-    this.addVideo = { "titre": "", "lien": "", "idPlaylist" : ""};
-    this.closeModal();
-    this.successModal();
-    setTimeout(() => {
-      this.closeSuccessModal();
-    }, 1500);
-    
-   
+    let data = 'titre='+this.addVideo.titre+'&videoId='+this.addVideo.videoId+'&urlImage='+this.addVideo.urlImage+'&idPlaylist='+this.addVideo.idPlaylist;
+    this.playlistService.createVideoByIdPlaylist(data).then((result: any) => {
+      this.addVideo = {"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":""};
+      this.closeModal();
+      this.successModal();
+      setTimeout(() => {
+        this.closeSuccessModal();
+      }, 1200);
+    }).catch(err =>{
+      console.log(err);
+    })
   }
 
 }

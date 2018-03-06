@@ -9,16 +9,16 @@
     </div>
     <div class="col s2"></div>
 
-    <div class="col s12 m6 l4" *ngFor="let video of [1,2,3,4]">
+    <div class="col s12 m6 l4" *ngFor="let video of allResult">
         <div class="card">
             <div class="card-image">
-                <img [src]="imageprovisoire">
+                <img [src]="video.snippet.thumbnails.medium.url">
                 <a class="btn-floating btn-large halfway-fab waves-effect waves-light indigo" (click)="addModal(video)">
                     <i class="material-icons">add</i>
                 </a>
             </div>
             <div class="card-content">
-                <span class="card-title indigo-text text-darken-3">Card Title{{video}}</span>
+                <span class="card-title indigo-text text-darken-3">{{video.snippet.title}}</span>
             </div>
         </div>
     </div>

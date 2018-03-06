@@ -61,4 +61,8 @@ export class PlaylistComponent implements OnInit {
     })
   }
 
+  playVideo(videoId){
+    this.router.navigate(['youtube-play',btoa(videoId)]);
+  }
+
 }

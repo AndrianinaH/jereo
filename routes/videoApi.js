@@ -23,10 +23,11 @@ router
 
     /* On ajoute une video */
     .post('/api/video', urlencodedParser, function (req, res) {
-        if (req.body.titre != undefined && req.body.lien != undefined && req.body.idPlaylist != undefined) {
+        if (req.body.titre != undefined && req.body.videoId != undefined && req.body.urlImage != undefined && req.body.idPlaylist != undefined) {
             let newVideo = {
                 titre: req.body.titre,
-                lien: req.body.lien,
+                videoId: req.body.videoId,
+                urlImage: req.body.urlImage,
                 idPlaylist: req.body.idPlaylist,
                 etat: 1
             };
@@ -37,11 +38,12 @@ router
 
     /* On update une video */
     .put('/api/video', urlencodedParser, function (req, res) {
-        if (req.body.id != undefined && req.body.titre != undefined && req.body.lien != undefined && req.body.idPlaylist != undefined && req.body.etat != undefined) {
+        if (req.body.id != undefined && req.body.titre != undefined && req.body.videoId != undefined && req.body.urlImage != undefined && req.body.idPlaylist != undefined && req.body.etat != undefined) {
             let id = req.body.id;
             let newVideo = {
                 titre: req.body.titre,
-                lien: req.body.lien,
+                videoId: req.body.videoId,
+                urlImage: req.body.urlImage,
                 idPlaylist: req.body.idPlaylist,
                 etat: req.body.etat
             };

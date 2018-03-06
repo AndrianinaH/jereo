@@ -6,7 +6,11 @@ let VideoSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    lien :{
+    videoId :{
+        type: String,
+        required: true,
+    },
+    urlImage :{
         type: String,
         required: true,
     },
