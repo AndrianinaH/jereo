@@ -18,7 +18,7 @@ export class YoutubePlayComponent implements OnInit {
     private playlistService: PlaylistServiceProvider,
     private route: ActivatedRoute,
     private router: Router,
-    private sanitanizer : DomSanitizer
+    public sanitanizer : DomSanitizer
   ) { }
 
   ngOnInit() {
