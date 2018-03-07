@@ -1,8 +1,10 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service'
+import { DashboardServiceProvider } from '../service/dashboard-service/dashboard-service';
+import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service';
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from '../service/auth-service/auth-service';
 import { MaterializeAction } from 'angular2-materialize';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-playlist',
@@ -15,17 +17,27 @@ export class PlaylistComponent implements OnInit {
   public addColor: string = 'indigo';
   public playlist: any = {};
   public allVideo: any = [];
+  public allPlaylist: any = [];
   public preloader: boolean = true;
+  public changeActions = new EventEmitter<string | MaterializeAction>();
   public deleteActions = new EventEmitter<string | MaterializeAction>();
+  public successActions = new EventEmitter<string | MaterializeAction>();
+  public changeVideo : any = {"id" : "" ,"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":"", "etat" : ""};
   public deleteVideo: any = { "id": "", "titre": "" };
+  public changeForm: FormGroup;
+  
 
   constructor(
     private auth: AuthService,
     private playlistService: PlaylistServiceProvider,
+    private dashboardService: DashboardServiceProvider,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {
-
+    this.changeForm = this.formBuilder.group({
+      idPlaylist: ['', Validators.required]
+    });
   }
 
   ngOnInit() {
@@ -40,16 +52,46 @@ export class PlaylistComponent implements OnInit {
     this.playlistService.getVideoByIdPlaylist(this.playlist._id).then((result: any) => {
       this.allVideo = result;
       this.preloader = false;
+    });
+
+    //----------------- get all playlist by id User
+    this.dashboardService.getPlaylistByIdUser().then((result: any) => {
+      this.allPlaylist = result;
+    }).catch((err) => {
+      console.log(err);
     })
   }
 
   //------------------ gére les modals
+  //------- change modal
+  changeModal(video :any) {
+    this.changeActions.emit({ action: "modal", params: ['open'] });
+    this.changeVideo = {
+      id : video._id,
+      titre : video.titre,
+      videoId : video.videoId,
+      urlImage : video.urlImage,
+      idPlaylist : video.idPlaylist,
+      etat : video.etat
+    }
+  }
+  closeChangeModal() {
+    this.changeActions.emit({ action: "modal", params: ['close'] });
+  }
+  //------- delete modal
   deleteModal(video: any) {
     this.deleteActions.emit({ action: "modal", params: ['open'] });
     this.deleteVideo = { "id": video._id, "titre": video.titre };
   }
   closeDeleteModal() {
     this.deleteActions.emit({ action: "modal", params: ['close'] });
+  }
+  //------ success modal
+  successModal() {
+    this.successActions.emit({ action: "modal", params: ['open'] });
+  }
+  closeSuccessModal() {
+    this.successActions.emit({ action: "modal", params: ['close'] });
   }
 
   //------------------ supprimer une video
@@ -63,6 +105,21 @@ export class PlaylistComponent implements OnInit {
 
   playVideo(videoId){
     this.router.navigate(['youtube-play',btoa(videoId)]);
+  }
+  //----------- change la playlist de la video
+  moveVideo(){
+    let data ='id='+this.changeVideo.id+'&titre='+this.changeVideo.titre+'&videoId='+this.changeVideo.videoId+'&urlImage='+this.changeVideo.urlImage+'&idPlaylist='+this.changeVideo.idPlaylist+'&etat='+this.changeVideo.etat;
+    this.playlistService.updateVideoByIdPlaylist(data).then((result: any) => {
+      this.allVideo = this.allVideo.filter(video => video._id !== this.changeVideo.id);
+      this.changeVideo =  {"id" : "" ,"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":"", "etat" : ""};
+      this.closeChangeModal();
+      this.successModal();
+      setTimeout(() => {
+        this.closeSuccessModal();
+      }, 1200);
+    }).catch(err =>{
+      console.log(err);
+    })
   }
 
 }

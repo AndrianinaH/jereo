@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from '../service/auth-service/auth-service';
 import { YoutubeServiceProvider } from '../service/youtube-service/youtube-service';
 import { DashboardServiceProvider } from '../service/dashboard-service/dashboard-service';
-import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service'
+import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
