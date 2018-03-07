@@ -12,7 +12,7 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 })
 export class YoutubePlayComponent implements OnInit {
 
-  public videoId : SafeResourceUrl = "";
+  public videoId : string = "";
   constructor(
     private auth: AuthService,
     private playlistService: PlaylistServiceProvider,
