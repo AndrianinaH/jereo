@@ -4,7 +4,7 @@ import { AuthService } from '../service/auth-service/auth-service';
 import { YoutubeServiceProvider } from '../service/youtube-service/youtube-service';
 import { DashboardServiceProvider } from '../service/dashboard-service/dashboard-service';
 import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service'
-import { MaterializeAction } from 'angular2-materialize';
+import { MaterializeAction, MaterializeDirective } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({

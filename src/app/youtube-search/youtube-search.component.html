@@ -31,7 +31,7 @@
         <form [formGroup]="addForm" (ngSubmit)="ajouterVideo()">
             <div>
                 <label for="idPlaylist">Vos Playlists</label>
-                <select id="idPlaylist" [(ngModel)]="addVideo.idPlaylist" materialize="material_select" formControlName="idPlaylist">
+                <select id="idPlaylist" [(ngModel)]="addVideo.idPlaylist" materialize="material_select" [materializeSelectOptions]="selectOptions" formControlName="idPlaylist">
                     <option value="">Choisissez une playlist</option>
                     <option *ngFor="let playlist of allPlaylist" class="{{couleur}}-text" [value]="playlist._id">{{playlist.titre}}</option>
                 </select>
