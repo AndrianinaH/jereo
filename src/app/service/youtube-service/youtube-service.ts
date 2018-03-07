@@ -10,7 +10,7 @@ export class YoutubeServiceProvider {
     BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
     API_TOKEN = 'AIzaSyDamc_0bi1OOyyesps0Do7cSk6wugvPwRk';
     partAndKey = '&part=snippet&key='+this.API_TOKEN;
-    maxResult = '&maxResults=12'
+    maxResult = '&maxResults=12';
 
     constructor(
         public http: HttpClient,

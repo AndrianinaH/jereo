@@ -1,9 +1,13 @@
 <app-menu></app-menu>
 
 <main class="row">
-  <div class="s12 m8">
-    <iframe class="youtubeFrame" type="text/html"
-      [src]="sanitanizer.bypassSecurityTrustResourceUrl(videoId)">
+  <div class="s12 m8 video-container">
+    <iframe class="responsive-video"
+      width="853" 
+      height="480"
+      [src]="sanitanizer.bypassSecurityTrustResourceUrl(videoId)"
+      frameborder="0"
+      allowfullscreen>
     </iframe>
   </div>
   

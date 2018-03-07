@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from '../service/auth-service/auth-service';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 
 @Component({
@@ -12,7 +12,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class YoutubePlayComponent implements OnInit {
 
-  public videoId : string = "";
+  public videoId : SafeResourceUrl = "";
   constructor(
     private auth: AuthService,
     private playlistService: PlaylistServiceProvider,
