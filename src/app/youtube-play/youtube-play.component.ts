@@ -24,7 +24,7 @@ export class YoutubePlayComponent implements OnInit {
   ngOnInit() {
      //-------------- recuperation des parametres
      this.route.params.subscribe(res => {
-      this.videoId = "http://www.youtube.com/embed/"+atob(res.videoId)+"?autoplay=1";
+      this.videoId = "https://www.youtube.com/embed/"+atob(res.videoId)+"?autoplay=1";
      
     });
   }
