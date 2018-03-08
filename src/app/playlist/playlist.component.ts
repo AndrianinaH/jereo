@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from '../service/auth-service/auth-service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-playlist',
@@ -22,9 +23,12 @@ export class PlaylistComponent implements OnInit {
   public changeActions = new EventEmitter<string | MaterializeAction>();
   public deleteActions = new EventEmitter<string | MaterializeAction>();
   public successActions = new EventEmitter<string | MaterializeAction>();
+  public playActions = new EventEmitter<string | MaterializeAction>();
   public changeVideo : any = {"id" : "" ,"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":"", "etat" : ""};
   public deleteVideo: any = { "id": "", "titre": "" };
   public changeForm: FormGroup;
+  public videoToPlay : any = {"id" : "" , "videoId" : "", "titre" : "" };
+  public safeUrl : any = "";
   
 
   constructor(
@@ -33,7 +37,8 @@ export class PlaylistComponent implements OnInit {
     private dashboardService: DashboardServiceProvider,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public sanitanizer : DomSanitizer
   ) {
     this.changeForm = this.formBuilder.group({
       idPlaylist: ['', Validators.required]
@@ -61,7 +66,30 @@ export class PlaylistComponent implements OnInit {
       console.log(err);
     })
   }
+  //----------- change la playlist de la video
+  moveVideo(){
+    let data ='id='+this.changeVideo.id+'&titre='+this.changeVideo.titre+'&videoId='+this.changeVideo.videoId+'&urlImage='+this.changeVideo.urlImage+'&idPlaylist='+this.changeVideo.idPlaylist+'&etat='+this.changeVideo.etat;
+    this.playlistService.updateVideoByIdPlaylist(data).then((result: any) => {
+      this.allVideo = this.allVideo.filter(video => video._id !== this.changeVideo.id);
+      this.changeVideo =  {"id" : "" ,"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":"", "etat" : ""};
+      this.closeChangeModal();
+      this.successModal();
+      setTimeout(() => {
+        this.closeSuccessModal();
+      }, 1200);
+    }).catch(err =>{
+      console.log(err);
+    })
+  }
 
+  //------------------ supprimer une video
+  supprimerVideo(id) {
+    this.playlistService.deleteVideoById(id).then((result: any) => {
+      this.allVideo = this.allVideo.filter(video => video._id !== id);
+      this.deleteVideo = { "id": "", "titre": "" };
+      this.closeDeleteModal();
+    })
+  }
   //------------------ gére les modals
   //------- change modal
   changeModal(video :any) {
@@ -94,32 +122,59 @@ export class PlaylistComponent implements OnInit {
     this.successActions.emit({ action: "modal", params: ['close'] });
   }
 
-  //------------------ supprimer une video
-  supprimerVideo(id) {
-    this.playlistService.deleteVideoById(id).then((result: any) => {
-      this.allVideo = this.allVideo.filter(video => video._id !== id);
-      this.deleteVideo = { "id": "", "titre": "" };
-      this.closeDeleteModal();
-    })
+  closePlayModal() {
+    this.playActions.emit({ action: "modal", params: ['close'] });
+  }
+  //-------- modal play video
+  playVideo(video){
+    this.playActions.emit({ action: "modal", params: ['open'] });
+    this.videoToPlay = {
+      id : video.videoId,
+      videoId : "https://www.youtube.com/embed/"+video.videoId+"?autoplay=1",
+      titre : video.titre
+    };
+    this.safeUrl = this.sanitanizer.bypassSecurityTrustResourceUrl(this.videoToPlay.videoId);
+    //this.router.navigate(['youtube-play',btoa(videoId)]);
   }
 
-  playVideo(videoId){
-    this.router.navigate(['youtube-play',btoa(videoId)]);
+  //-------- previous video
+  previousVideo(video){
+    for(let i = 0; i < this.allVideo.length; i++){
+      if(this.allVideo[i].videoId == video.id){
+        if(this.allVideo[i-1] != undefined){
+          this.videoToPlay = {
+            id : this.allVideo[i-1].videoId,
+            videoId : "https://www.youtube.com/embed/"+this.allVideo[i-1].videoId+"?autoplay=1",
+            titre : this.allVideo[i-1].titre
+          };
+          console.log("previous press");
+          console.log(video);
+          this.safeUrl = this.sanitanizer.bypassSecurityTrustResourceUrl(this.videoToPlay.videoId);
+        }
+      }
+    }
   }
-  //----------- change la playlist de la video
-  moveVideo(){
-    let data ='id='+this.changeVideo.id+'&titre='+this.changeVideo.titre+'&videoId='+this.changeVideo.videoId+'&urlImage='+this.changeVideo.urlImage+'&idPlaylist='+this.changeVideo.idPlaylist+'&etat='+this.changeVideo.etat;
-    this.playlistService.updateVideoByIdPlaylist(data).then((result: any) => {
-      this.allVideo = this.allVideo.filter(video => video._id !== this.changeVideo.id);
-      this.changeVideo =  {"id" : "" ,"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":"", "etat" : ""};
-      this.closeChangeModal();
-      this.successModal();
-      setTimeout(() => {
-        this.closeSuccessModal();
-      }, 1200);
-    }).catch(err =>{
-      console.log(err);
-    })
+
+  //-------- next video
+  nextVideo(video){
+    for(let i = 0; i < this.allVideo.length; i++){
+      if(this.allVideo[i].videoId == video.id){
+        if(this.allVideo[i+1] != undefined){
+          this.videoToPlay = {
+            id : this.allVideo[i+1].videoId,
+            videoId : "https://www.youtube.com/embed/"+this.allVideo[i+1].videoId+"?autoplay=1",
+            titre : this.allVideo[i+1].titre
+          };
+          console.log("next press");
+          console.log(video);
+          this.safeUrl = this.sanitanizer.bypassSecurityTrustResourceUrl(this.videoToPlay.videoId);
+        }
+      }
+    }
   }
+
+
+
+ 
 
 }

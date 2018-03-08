@@ -13,6 +13,8 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 export class YoutubePlayComponent implements OnInit {
 
   public videoId : string = "";
+  public safeUrl : any = "";
+
   constructor(
     private auth: AuthService,
     private playlistService: PlaylistServiceProvider,
@@ -25,6 +27,7 @@ export class YoutubePlayComponent implements OnInit {
      //-------------- recuperation des parametres
      this.route.params.subscribe(res => {
       this.videoId = "https://www.youtube.com/embed/"+atob(res.videoId)+"?autoplay=1";
+      this.safeUrl = this.sanitanizer.bypassSecurityTrustResourceUrl(this.videoId);
      
     });
   }

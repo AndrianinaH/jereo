@@ -1,15 +1,15 @@
 <app-menu></app-menu>
 
 <main class="row">
-  <div class="s12 m8 video-container">
+  <div class="s12 video-container">
     <iframe class="responsive-video"
       width="853" 
       height="480"
-      [src]="sanitanizer.bypassSecurityTrustResourceUrl(videoId)"
+      [src]="safeUrl"
       frameborder="0"
       allowfullscreen>
     </iframe>
   </div>
-  
+
 </main>
 

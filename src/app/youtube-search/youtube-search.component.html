@@ -5,7 +5,7 @@
     <div class="input-field col s8">
         <i class="material-icons prefix indigo-text">search</i>
         <input id="icon_prefix" type="text" [(ngModel)]="data" (keyup)="searchVideo()">
-        <label for="icon_prefix">Rechercher une video youtube</label>
+        <label for="icon_prefix">Rechercher une vidéo youtube</label>
     </div>
     <div class="col s2"></div>
 
@@ -13,7 +13,10 @@
         <div class="card">
             <div class="card-image">
                 <img [src]="video.snippet.thumbnails.medium.url">
-                <a class="btn-floating btn-large halfway-fab waves-effect waves-light indigo" (click)="addModal(video)">
+                <button class="btn-floating btn-large waves-effect waves-light indigo" (click)="playVideo(video)">
+                <i class="material-icons">play_arrow</i>
+                </button>
+                <a class="btn-floating btn-large halfway-fab waves-effect waves-light amber -darken-2" (click)="addModal(video)">
                     <i class="material-icons">add</i>
                 </a>
             </div>
@@ -27,7 +30,7 @@
 <!-- modal ajouter -->
 <div class="modal" materialize="modal" [materializeActions]="addActions">
     <div class="modal-content">
-        <h5 class="center {{addColor}}-text">Ajouter une video à une playlist</h5>
+        <h5 class="center {{addColor}}-text">Ajouter une vidéo à une playlist</h5>
         <form [formGroup]="addForm" (ngSubmit)="ajouterVideo()">
             <div>
                 <label for="idPlaylist">Vos Playlists</label>
@@ -47,5 +50,19 @@
 </div>
 <!-- modal success -->
 <div class="modal  green darken-3" materialize="modal" [materializeActions]="successActions">
-    <p class="center-align white-text">La video a été ajouter à la playlist</p>
+    <p class="center-align white-text">La vidéo a été ajouter à la playlist</p>
 </div>
+
+<!-- modal play Video -->
+<div class="modal play-video" materialize="modal" [materializeActions]="playActions">
+    <div class="modal-content">
+      <div class="video-container">
+        <iframe class="responsive-video" 
+          [src]="safeUrl" 
+          frameborder="0"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <p class="center-align">{{videoToPlay.titre}}</p>
+    </div>
+  </div>

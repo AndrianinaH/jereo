@@ -34,3 +34,13 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:focus:not([reado
 }
 
 /*-------  fin playlist ------*/
+/* ---------- modal play video ---------- */
+.play-video .modal-content{
+    padding: 0;
+ }
+ .play-video p{
+    padding: 24px;
+ }
+ .play-video{
+    max-height: 80% !important;
+ }

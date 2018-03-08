@@ -6,6 +6,7 @@ import { DashboardServiceProvider } from '../service/dashboard-service/dashboard
 import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-youtube-search',
@@ -21,8 +22,11 @@ export class YoutubeSearchComponent implements OnInit {
   public imageprovisoire: string = "/assets/images/office2.jpg";
   public addActions = new EventEmitter<string | MaterializeAction>();
   public successActions = new EventEmitter<string | MaterializeAction>();
+  public playActions = new EventEmitter<string | MaterializeAction>();  
   public addVideo : any = {"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":""};
   public addForm: FormGroup;
+  public videoToPlay : any = {"id" : "" , "videoId" : "", "titre" : "" };
+  public safeUrl : any = "";
 
 
   constructor(
@@ -32,11 +36,18 @@ export class YoutubeSearchComponent implements OnInit {
     private dashboardService: DashboardServiceProvider,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public sanitanizer : DomSanitizer
   ) { 
     this.addForm = this.formBuilder.group({
       idPlaylist: ['', Validators.required]
     });
+
+    this.youtubeService.search("actualité mondiale").then((result: any) => {
+      this.allResult = result.items;
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   ngOnInit() {
@@ -51,7 +62,6 @@ export class YoutubeSearchComponent implements OnInit {
   searchVideo() {
     this.youtubeService.search(this.data).then((result: any) => {
       this.allResult = result.items;
-      console.log(this.allResult);
     }).catch(err => {
       console.log(err);
     })
@@ -72,6 +82,21 @@ export class YoutubeSearchComponent implements OnInit {
   }
   closeSuccessModal() {
     this.successActions.emit({ action: "modal", params: ['close'] });
+  }
+  closePlayModal() {
+    this.playActions.emit({ action: "modal", params: ['close'] });
+  }
+  //-------- modal play video
+  playVideo(video){
+    this.playActions.emit({ action: "modal", params: ['open'] });
+    this.videoToPlay = {
+      id : video.id.videoId,
+      videoId : "https://www.youtube.com/embed/"+video.id.videoId+"?autoplay=1",
+      titre : video.snippet.title
+    };
+    console.log(this.videoToPlay);
+    this.safeUrl = this.sanitanizer.bypassSecurityTrustResourceUrl(this.videoToPlay.videoId);
+    //this.router.navigate(['youtube-play',btoa(videoId)]);
   }
 
 

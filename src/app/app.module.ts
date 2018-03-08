@@ -15,7 +15,7 @@ import { AppComponent } from './app.component';
 import { appRoutingComponents, AppRoutingModule } from './app-routing.module';
 import { AuthService } from './service/auth-service/auth-service';
 import { YoutubeServiceProvider } from './service/youtube-service/youtube-service';
-
+// import { YoutubePlayerModule } from 'ngx-youtube-player';
 
 @NgModule({
   declarations: [
@@ -28,8 +28,8 @@ import { YoutubeServiceProvider } from './service/youtube-service/youtube-servic
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterializeModule
-
+    MaterializeModule,
+    // YoutubePlayerModule
   ],
   providers: [
     PubNubAngular,

@@ -4,18 +4,21 @@
   <h5 class="my-titre {{color}}-text text-darken-3">
     <b>{{titre}}</b>
   </h5>
-  <div id="ajax-loader" *ngIf="preloader"><img src="/assets/images/rubickspreloader.gif" /><p>Chargement en cours ...</p></div>
+  <div id="ajax-loader" *ngIf="preloader">
+    <img src="/assets/images/rubickspreloader.gif" />
+    <p>Chargement en cours ...</p>
+  </div>
   <div class="col s12" *ngIf="allVideo.length != 0">
     <table class="highlight centered">
       <tbody>
         <tr *ngFor="let video of allVideo">
           <td>
-            <button class="btn-floating {{color}}"  (click)="playVideo(video.videoId)">
+            <button class="btn-floating {{color}}" (click)="playVideo(video)">
               <i class="material-icons">play_arrow</i>
             </button>
           </td>
           <td>
-              <img [src]="video.urlImage" [alt]="video.titre">
+            <img [src]="video.urlImage" [alt]="video.titre">
           </td>
           <td>
             {{ video.titre }}
@@ -42,43 +45,85 @@
 <!-- ----------------- modal zone --------------- -->
 <!-- modal modifier -->
 <div class="modal" materialize="modal" [materializeActions]="changeActions">
-    <div class="modal-content">
-        <h5 class="center {{addColor}}-text">Changer la playlist de la video</h5>
-        <p class="center {{addColor}}-text text-darken-3"><b>{{ changeVideo.titre }}</b></p>
-        <form [formGroup]="changeForm" (ngSubmit)="moveVideo()">
-            <div>
-                <label for="idPlaylist">Vos Playlists</label>
-                <select id="idPlaylist" [(ngModel)]="changeVideo.idPlaylist" materialize="material_select" [materializeSelectOptions]="allPlaylist" formControlName="idPlaylist">
-                    <option value="">Choisissez une playlist</option>
-                    <option *ngFor="let playlist of allPlaylist" class="{{couleur}}-text" [value]="playlist._id">{{playlist.titre}}</option>
-                </select>
-            </div>
-            <div class="centreo">
-                <button type="button" class="btn black" (click)="closeChangeModal()">annuler</button>
-                <button type="submit" class="btn tooltipped {{addColor}}" [disabled]="!changeForm.valid">
-                    <i class="material-icons left">done</i>Enregistrer
-                </button>
-            </div>
-        </form>
-    </div>
+  <div class="modal-content">
+    <h5 class="center {{addColor}}-text">Changer la playlist de la vidéo</h5>
+    <p class="center {{addColor}}-text text-darken-3">
+      <b>{{ changeVideo.titre }}</b>
+    </p>
+    <form [formGroup]="changeForm" (ngSubmit)="moveVideo()">
+      <div>
+        <label for="idPlaylist">Vos Playlists</label>
+        <select id="idPlaylist" [(ngModel)]="changeVideo.idPlaylist" materialize="material_select" [materializeSelectOptions]="allPlaylist"
+          formControlName="idPlaylist">
+          <option value="">Choisissez une playlist</option>
+          <option *ngFor="let playlist of allPlaylist" class="{{couleur}}-text" [value]="playlist._id">{{playlist.titre}}</option>
+        </select>
+      </div>
+      <div class="centreo">
+        <button type="button" class="btn black" (click)="closeChangeModal()">annuler</button>
+        <button type="submit" class="btn tooltipped {{addColor}}" [disabled]="!changeForm.valid">
+          <i class="material-icons left">done</i>Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- modal delete -->
 <div class="modal" materialize="modal" [materializeActions]="deleteActions">
   <div class="modal-content">
-      <h5 class="center red-text text-darken-1">Voulez vous vraiment supprimer la vidéo</h5>
-      <h5 class="center red-text text-darken-1"> <strong>{{deleteVideo.titre}}</strong> ?</h5>
-      <br>
-      <br>
-      <div class="centreo">
-          <button type="button" class="btn black" (click)="closeDeleteModal()">annuler</button>
-          <button type="button" class="btn red darken-1" (click)="supprimerVideo(deleteVideo.id)">
-              <i class="material-icons left">delete</i>Supprimer
-          </button>
-      </div>
+    <h5 class="center red-text text-darken-1">Voulez vous vraiment supprimer la vidéo</h5>
+    <h5 class="center red-text text-darken-1">
+      <strong>{{deleteVideo.titre}}</strong> ?</h5>
+    <br>
+    <br>
+    <div class="centreo">
+      <button type="button" class="btn black" (click)="closeDeleteModal()">annuler</button>
+      <button type="button" class="btn red darken-1" (click)="supprimerVideo(deleteVideo.id)">
+        <i class="material-icons left">delete</i>Supprimer
+      </button>
+    </div>
   </div>
 </div>
 <!-- modal success -->
 <div class="modal  green darken-3" materialize="modal" [materializeActions]="successActions">
-    <p class="center-align white-text">La video a changer de playlist</p>
+  <p class="center-align white-text">La vidéo a changer de playlist</p>
+</div>
+
+<!-- modal play Video -->
+<div class="modal play-video" materialize="modal" [materializeActions]="playActions">
+  <div class="modal-content">
+    <div class="video-container">
+      <iframe class="responsive-video" 
+        [src]="safeUrl" 
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="center-align">{{videoToPlay.titre}}</p>
+    <br>
+    <br>
+    <div class="fixed-action-btn toolbar">
+      <a class="btn-floating btn-large {{color}} darken-2">
+        <i class="large material-icons">more_vert</i>
+      </a>
+      <ul>
+        <li class="waves-effect waves-light">
+          <a (click)="previousVideo(videoToPlay)" materialize="tooltip" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="vidéo précédent">
+            <i class="material-icons">skip_previous</i>
+          </a>
+        </li>
+        <li class="waves-effect waves-light">
+          <a (click)="nextVideo(videoToPlay)" materialize="tooltip" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="vidéo suivant">
+            <i class="material-icons">skip_next</i>
+          </a>
+        </li>
+        <li class="waves-effect waves-light">
+          <a (click)="closePlayModal()" materialize="tooltip" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Fermer">
+            <i class="material-icons">close</i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

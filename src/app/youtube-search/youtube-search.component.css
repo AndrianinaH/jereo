@@ -10,3 +10,9 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:focus:not([reado
     font-size: 17px;
     font-weight: bold;
 }
+.play-video .modal-content{
+    padding: 0;
+ }
+ .play-video p{
+    padding: 10px;
+ }
