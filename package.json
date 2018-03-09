@@ -26,6 +26,7 @@
     "@angular/router": "^5.2.0",
     "@types/youtube": "0.0.32",
     "angular2-materialize": "^15.1.10",
+    "angular4-drag-drop": "^1.1.2",
     "body-parser": "~1.10.1",
     "cookie-session": "~1.1.0",
     "core-js": "^2.4.1",

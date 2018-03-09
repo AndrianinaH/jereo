@@ -22,11 +22,18 @@ export class YoutubeSearchComponent implements OnInit {
   public imageprovisoire: string = "/assets/images/office2.jpg";
   public addActions = new EventEmitter<string | MaterializeAction>();
   public successActions = new EventEmitter<string | MaterializeAction>();
-  public playActions = new EventEmitter<string | MaterializeAction>();  
-  public addVideo : any = {"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":""};
+  public playActions = new EventEmitter<string | MaterializeAction>();
+  public addVideo: any = { "titre": "", "videoId": "", "urlImage": "", "idPlaylist": "" };
   public addForm: FormGroup;
-  public videoToPlay : any = {"id" : "" , "videoId" : "", "titre" : "" };
-  public safeUrl : SafeResourceUrl = "";
+  public videoToPlay: any = { "id": "", "videoId": "", "titre": "" };
+  public safeUrl: SafeResourceUrl = "";
+  public preloader: boolean = true;
+  //---- menu
+  public isConnected: boolean = false;
+  public user: any = {};
+  public color: string = 'red';
+  public badgeColor: string = '';
+  public nbrVideos: any = [];
 
 
   constructor(
@@ -37,25 +44,39 @@ export class YoutubeSearchComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    public sanitanizer : DomSanitizer
-  ) { 
+    public sanitanizer: DomSanitizer
+  ) {
     this.addForm = this.formBuilder.group({
       idPlaylist: ['', Validators.required]
     });
 
     this.youtubeService.search("actualité mondiale").then((result: any) => {
       this.allResult = result.items;
+      this.preloader = false;
     }).catch(err => {
       console.log(err);
     })
   }
 
   ngOnInit() {
+    this.isConnected = this.auth.isConnected();
+    if (!this.isConnected) this.router.navigate(['login']);
+    this.user = this.auth.getUser();
+
     this.dashboardService.getPlaylistByIdUser().then((result: any) => {
       this.allPlaylist = result;
-      console.log(this.allPlaylist);
+      for (let i = 0; i < this.allPlaylist.length; i++) {
+        this.getNbrVideo(i, this.allPlaylist[i]._id);
+      }
     }).catch((err) => {
       console.log(err);
+    })
+  }
+
+  //----------------- get NbrVideo by idPlaylist
+  getNbrVideo(i, id) {
+    this.playlistService.getVideoByIdPlaylist(id).then((result: any) => {
+      this.nbrVideos[i] = result.length;
     })
   }
 
@@ -67,7 +88,7 @@ export class YoutubeSearchComponent implements OnInit {
     })
   }
   //------------------ gére les modals 
-  addModal(video :any) {
+  addModal(video: any) {
     this.addActions.emit({ action: "modal", params: ['open'] });
     this.addVideo.videoId = video.id.videoId;
     this.addVideo.titre = video.snippet.title;
@@ -87,12 +108,12 @@ export class YoutubeSearchComponent implements OnInit {
     this.playActions.emit({ action: "modal", params: ['close'] });
   }
   //-------- modal play video
-  playVideo(video){
+  playVideo(video) {
     this.playActions.emit({ action: "modal", params: ['open'] });
     this.videoToPlay = {
-      id : video.id.videoId,
-      videoId : "https://www.youtube.com/embed/"+video.id.videoId+"?autoplay=1",
-      titre : video.snippet.title
+      id: video.id.videoId,
+      videoId: "https://www.youtube.com/embed/" + video.id.videoId + "?autoplay=1",
+      titre: video.snippet.title
     };
     console.log(this.videoToPlay);
     this.safeUrl = this.sanitanizer.bypassSecurityTrustResourceUrl(this.videoToPlay.videoId);
@@ -100,18 +121,77 @@ export class YoutubeSearchComponent implements OnInit {
   }
 
 
-  ajouterVideo(){
-    let data = 'titre='+this.addVideo.titre+'&videoId='+this.addVideo.videoId+'&urlImage='+this.addVideo.urlImage+'&idPlaylist='+this.addVideo.idPlaylist;
+  ajouterVideo() {
+    let data = 'titre=' + this.addVideo.titre + '&videoId=' + this.addVideo.videoId + '&urlImage=' + this.addVideo.urlImage + '&idPlaylist=' + this.addVideo.idPlaylist;
     this.playlistService.createVideoByIdPlaylist(data).then((result: any) => {
-      this.addVideo = {"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":""};
+      this.addVideo = { "titre": "", "videoId": "", "urlImage": "", "idPlaylist": "" };
       this.closeModal();
       this.successModal();
       setTimeout(() => {
         this.closeSuccessModal();
       }, 1200);
-    }).catch(err =>{
+    }).catch(err => {
       console.log(err);
     })
+  }
+
+  //--------------------- menu
+  //-------------- displayUser in dashboard --------------//
+  getInitial(pseudo) {
+    return pseudo.charAt(0).toUpperCase();
+  }
+
+  getColor() {
+    var num = Math.floor((Math.random() * 10) + 1);
+    switch (num) {
+      case 1:
+        return "blue";
+      case 2:
+        return "amber";
+      case 3:
+        return "grey";
+      case 4:
+        return "green";
+      case 5:
+        return "cyan";
+      case 6:
+        return "indigo";
+      case 7:
+        return "purple";
+      case 8:
+        return "brown";
+      case 9:
+        return "orange";
+      case 10:
+        return "red darken-4";
+    }
+  }
+
+  //-------------- logout --------------//
+  deconnexion() {
+    this.isConnected = this.auth.deconnexion();
+    this.router.navigate(['login']);
+  }
+
+  //----------- drag and drop 
+  //----add video to playlist
+  addDropItem(video, id, i) {
+    this.nbrVideos[i] += 1;
+    this.ajouterVideoDragDrop(video, id);
+  }
+
+  ajouterVideoDragDrop(video, id) {
+    this.addVideo.videoId = video.id.videoId;
+    this.addVideo.titre = video.snippet.title;
+    this.addVideo.urlImage = video.snippet.thumbnails.default.url;
+    this.addVideo.idPlaylist = id;
+    this.ajouterVideo();
+  }
+
+  //------------------ voir les détails de la playlist
+  voirDetail(playlist) {
+    let playlistEncode = JSON.stringify(playlist);
+    this.router.navigate(['playlist', btoa(playlistEncode)]);
   }
 
 }
