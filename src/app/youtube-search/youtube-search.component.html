@@ -61,11 +61,11 @@
           <a class="collapsible-header {{color}}-text text-darken-3">Vos Playlists
             <i class="material-icons {{color}}-text text-darken-3">video_library</i>
           </a>
-          <div class="collapsible-body">
+          <div class="collapsible-body active">
             <ul>
               <li *ngFor="let playlist of allPlaylist ; index as i" dropDirective (dropEvent)="addDropItem($event,playlist._id,i)">
-                <a class="{{color}}-text text-darken-3" (click)="voirDetail(playlist)">
-                  {{playlist.titre}} {{nbrVideos[i]}} video(s)
+                <a class="{{playlist.couleur}} darken-1 white-text" (click)="voirDetail(playlist)">
+                  {{playlist.titre}}<span class="badge {{playlist.couleur}} white-text" data-badge-caption="video(s)">{{nbrVideos[i]}}</span>
                 </a>
               </li>
             </ul>

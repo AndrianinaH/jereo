@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 
-// let url = 'mongodb://localhost/jereo';
-let url = 'mongodb://layton:azerty12345@ds253918.mlab.com:53918/jereo';
+let url = 'mongodb://localhost/jereo';
+// let url = 'mongodb://layton:azerty12345@ds253918.mlab.com:53918/jereo';
 mongoose.connect(url);
 
 Utilisateur = require('../models/utilisateur');
