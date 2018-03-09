@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from '../service/auth-service/auth-service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-playlist',
@@ -28,7 +28,7 @@ export class PlaylistComponent implements OnInit {
   public deleteVideo: any = { "id": "", "titre": "" };
   public changeForm: FormGroup;
   public videoToPlay : any = {"id" : "" , "videoId" : "", "titre" : "" };
-  public safeUrl : any = "";
+  public safeUrl : SafeResourceUrl = "";
   
 
   constructor(
@@ -134,7 +134,6 @@ export class PlaylistComponent implements OnInit {
       titre : video.titre
     };
     this.safeUrl = this.sanitanizer.bypassSecurityTrustResourceUrl(this.videoToPlay.videoId);
-    //this.router.navigate(['youtube-play',btoa(videoId)]);
   }
 
   //-------- previous video

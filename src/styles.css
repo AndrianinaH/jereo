@@ -107,6 +107,12 @@ header, main {
     margin: 8px;
 }
 
+.btn-floating.halfway-fab2{
+    position: absolute;
+    left: 20px;
+    bottom: -26px;
+}
+
 
 
 

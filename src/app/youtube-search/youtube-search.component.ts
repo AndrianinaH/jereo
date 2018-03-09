@@ -6,7 +6,7 @@ import { DashboardServiceProvider } from '../service/dashboard-service/dashboard
 import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-youtube-search',
@@ -26,7 +26,7 @@ export class YoutubeSearchComponent implements OnInit {
   public addVideo : any = {"titre" : "", "videoId" : "", "urlImage" : "", "idPlaylist":""};
   public addForm: FormGroup;
   public videoToPlay : any = {"id" : "" , "videoId" : "", "titre" : "" };
-  public safeUrl : any = "";
+  public safeUrl : SafeResourceUrl = "";
 
 
   constructor(
