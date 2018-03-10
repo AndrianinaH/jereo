@@ -50,18 +50,21 @@ export class YoutubeSearchComponent implements OnInit {
       idPlaylist: ['', Validators.required]
     });
 
-    this.youtubeService.search("actualité mondiale").then((result: any) => {
-      this.allResult = result.items;
-      this.preloader = false;
-    }).catch(err => {
-      console.log(err);
-    })
   }
 
   ngOnInit() {
     this.isConnected = this.auth.isConnected();
     if (!this.isConnected) this.router.navigate(['login']);
     this.user = this.auth.getUser();
+
+    this.youtubeService.search("actualité mondiale").then((result: any) => {
+      this.allResult = result.items;
+      this.preloader = false;
+    }).catch(err => {
+      console.log(err);
+    })
+
+    this.badgeColor = this.getColor();
 
     this.dashboardService.getPlaylistByIdUser().then((result: any) => {
       this.allPlaylist = result;
@@ -124,6 +127,7 @@ export class YoutubeSearchComponent implements OnInit {
   ajouterVideo() {
     let data = 'titre=' + this.addVideo.titre + '&videoId=' + this.addVideo.videoId + '&urlImage=' + this.addVideo.urlImage + '&idPlaylist=' + this.addVideo.idPlaylist;
     this.playlistService.createVideoByIdPlaylist(data).then((result: any) => {
+      this.incrementeNbrVideo();
       this.addVideo = { "titre": "", "videoId": "", "urlImage": "", "idPlaylist": "" };
       this.closeModal();
       this.successModal();
@@ -133,6 +137,13 @@ export class YoutubeSearchComponent implements OnInit {
     }).catch(err => {
       console.log(err);
     })
+  }
+
+  //-------- incremente nbrVideo By idPlaylist
+  incrementeNbrVideo(){
+    for (let i = 0; i < this.allPlaylist.length; i++) {
+      if (this.allPlaylist[i]._id == this.addVideo.idPlaylist) this.nbrVideos[i] +=1;
+    }
   }
 
   //--------------------- menu
@@ -175,8 +186,7 @@ export class YoutubeSearchComponent implements OnInit {
 
   //----------- drag and drop 
   //----add video to playlist
-  addDropItem(video, id, i) {
-    this.nbrVideos[i] += 1;
+  addDropItem(video, id) {
     this.ajouterVideoDragDrop(video, id);
   }
 
@@ -192,6 +202,14 @@ export class YoutubeSearchComponent implements OnInit {
   voirDetail(playlist) {
     let playlistEncode = JSON.stringify(playlist);
     this.router.navigate(['playlist', btoa(playlistEncode)]);
+  }
+
+  //-------------- format playlist titre
+  formatTitre(titre){
+    if(titre.length > 20){
+      return titre.substr(0,20)+" ...";
+    }
+    return titre;
   }
 
 }

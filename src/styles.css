@@ -112,7 +112,13 @@ header, main {
     left: 20px;
     bottom: -26px;
 }
-
+/* --------- all playlist menu badge --------- */
+span.badge {
+    font-size: 11px !important;
+}
+span.badge[data-badge-caption]::after {
+    font-size: 10px;
+}
 
 
 
