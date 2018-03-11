@@ -51,13 +51,19 @@
     <div *ngIf="allPlaylistCollaborateur.length != 0" class="row">
         <p class="my-sous-titre {{color}}-text text-darken-3">Playlists dont vous êtes spectateur</p>
         <div class="col s12 m6 l4 playlist-my" *ngFor="let playlist of allPlaylistCollaborateur ; index as i">
+            <div class="centreo">
+                <button class="btn tooltipped red" materialize="tooltip" data-position="top" data-delay="50" data-tooltip="Ne plus voir cette playlist"
+                    (click)="hidePlaylist(playlist._id, collaborateurPlaylist.i)">
+                    <i class="material-icons">visibility_off</i>
+                </button>
+            </div>
             <div class="card-panel {{playlist.couleur}} darken-1 row" (click)="voirDetail(playlist,2)">
                 <div class="col s3 card-icone">
                     <i class="material-icons">video_library</i>
                 </div>
                 <div class="col s9">
                     <p class="card-chiffre" *ngIf="(playlist.nbrVideo == undefined)">
-                        <span>{{nbrVideos[i]}}</span> Vidéo(s)
+                        <span>{{nbrVideosEmail[i]}}</span> Vidéo(s)
                     </p>
                     <p class="card-chiffre" *ngIf="(playlist.nbrVideo != undefined)">
                         <span>{{playlist.nbrVideo}}</span> Vidéo(s)
@@ -170,7 +176,7 @@
                 </button>
             </div>
             <p class="red-text text-darken-2 center-align">
-               {{errorPartage}}
+                {{errorPartage}}
             </p>
         </form>
     </div>

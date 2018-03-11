@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   public allPlaylist: any = [];
   public allPlaylistCollaborateur: any = [];
   public nbrVideos: any = [];
+  public nbrVideosEmail: any = [];
   public preloader: boolean = true;
   public modalActions = new EventEmitter<string | MaterializeAction>();
   public updateActions = new EventEmitter<string | MaterializeAction>();
@@ -78,7 +79,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getPlaylistByIdUser().then((result: any) => {
       this.allPlaylist = result;
       for (let i = 0; i <  this.allPlaylist.length; i++) {
-       this.getNbrVideo(i,  this.allPlaylist[i]._id);
+       this.getNbrVideo(i,  this.allPlaylist[i]._id, 1);
       }
       this.preloader = false;
     }).catch((err) => {
@@ -88,7 +89,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getPlaylistByEmail().then((result: any) => {
       this.allPlaylistCollaborateur = result;
       for (let i = 0; i <  this.allPlaylistCollaborateur.length; i++) {
-       this.getNbrVideo(i,  this.allPlaylistCollaborateur[i]._id);
+       this.getNbrVideo(i,  this.allPlaylistCollaborateur[i]._id, 2);
       }
       this.preloader = false;
     }).catch((err) => {
@@ -196,14 +197,24 @@ export class DashboardComponent implements OnInit {
       this.allPlaylist = this.allPlaylist.filter(play => play._id !== id);
       this.deletePlaylist = { "id": "", "titre": "" };
       this.closeDeleteModal();
+      for (let i = 0; i <  this.allPlaylist.length; i++) {
+        this.getNbrVideo(i,  this.allPlaylist[i]._id, 1);
+      }
     })
   }
 
   //----------------- get NbrVideo by idPlaylist
-  private getNbrVideo(i, id) {
+  private getNbrVideo(i, id, num) {
     this.playlistService.getVideoByIdPlaylist(id).then((result: any) => {
-      this.nbrVideos[i] = result.length;
+      if(num == 1) this.nbrVideos[i] = result.length;
+      else this.nbrVideosEmail[i] = result.length;
     })
+  }
+  private addElement(allData, data) {
+    for (let i = 0; i < allData.length; i++) {
+      if (allData[i] == data) return;
+    }
+    allData.push(data);
   }
 
   //----------------- partager la playlist
@@ -216,25 +227,46 @@ export class DashboardComponent implements OnInit {
         this.addElement(this.allPlaylist[i].users, this.partagePlaylist.newUser);
         this.partagePlaylist = { "id": "", "titre": "", "newUser" : "", "i" : 0 };
         this.closePartageModal();
+
+        //pushnotification
+        //append new playlistcollaborateur
+
       })
     }
   
   }
 
-  //----------------- partager la playlist
+  //----------------- remove la playlist (admin side)
   removeCollaborateur(id, newUser, i){
     let data = 'id=' + id + '&newUser=' + newUser;
     this.dashboardService.removeCollaborateur(data).then((result: any) => {
       this.allPlaylist[i].users = this.allPlaylist[i].users.filter(user => user !== newUser);
       this.collaborateurPlaylist.users = this.collaborateurPlaylist.users.filter(user => user !== newUser);
+
+      //pushnotification
+      //remove delete playlistcollaborateur
+
     })
   }
 
-  private addElement(allData, data) {
-    for (let i = 0; i < allData.length; i++) {
-      if (allData[i] == data) return;
-    }
-    allData.push(data);
+   //----------------- ne plus voir la playlist (spectateur side)
+   hidePlaylist(id, i){
+    let newUser = this.auth.getUser().email
+    let data = 'id=' + id + '&newUser=' + this.auth.getUser().email;
+    this.dashboardService.removeCollaborateur(data).then((result: any) => {
+      this.allPlaylistCollaborateur = this.allPlaylistCollaborateur.filter(playlist => playlist._id !== id);
+      for (let i = 0; i <  this.allPlaylistCollaborateur.length; i++) {
+        this.getNbrVideo(i,  this.allPlaylistCollaborateur[i]._id, 2);
+      }
+     
+
+      //pushnotification
+      //remove delete playlistcollaborateur
+      //remove users from list of collaborateur
+
+    })
   }
+
+ 
 
 }
