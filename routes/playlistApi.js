@@ -13,6 +13,13 @@ router
         } else res.json({ "status": "ko" });
     })
 
+    /* GET all playlist collaborateur ok. */
+    .get('/api/playlistByEmail/:email', function (req, res, next) {
+        if (req.params.email != undefined) {
+            mongoose.GetPlaylistCollaborateur(res, req.params.email);
+        } else res.json({ "status": "ko" });
+    })
+
     /* GET all playlist ko */
     .get('/api/playlistDelete/:idUser', function (req, res, next) {
         if (req.params.idUser != undefined) {
@@ -53,6 +60,24 @@ router
     .delete('/api/playlist/:id', function (req, res) {
         if (req.params.id != undefined) {
             mongoose.DeletePlaylist(res, req.params.id);
+        }
+        else res.json({ "status": "ko" });
+    })
+
+    /* On ajoute un collaborateur à la playlist */
+    .put('/api/playlist/newUser', urlencodedParser, function (req, res) {
+        if (req.body.id != undefined && req.body.newUser != undefined) {
+            let newUser = req.body.newUser;
+            mongoose.AddCollaborateur(res, req.body.id, newUser);
+        }
+        else res.json({ "status": "ko" });
+    })
+
+    /* On enleve un collaborateur à la playlist */
+    .put('/api/playlist/removeUser', urlencodedParser, function (req, res) {
+        if (req.body.id != undefined && req.body.newUser != undefined) {
+            let newUser = req.body.newUser;
+            mongoose.RemoveCollaborateur(res, req.body.id, newUser);
         }
         else res.json({ "status": "ko" });
     })

@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 
-let url = 'mongodb://localhost/jereo';
-// let url = 'mongodb://layton:azerty12345@ds253918.mlab.com:53918/jereo';
+// let url = 'mongodb://localhost/jereo';
+let url = 'mongodb://layton:azerty12345@ds253918.mlab.com:53918/jereo';
 mongoose.connect(url);
 
 Utilisateur = require('../models/utilisateur');
@@ -61,6 +61,21 @@ exports.GetPlaylist = function(res,idUser){
         }
     });
 }
+//-------- get playlist ok by email
+//db.playlists.find({"users" : {$in : [ "jeanaaa@gmail.com"]}})
+
+exports.GetPlaylistCollaborateur = function(res,newUser){
+    let playlist = {
+        "users" : {$in : [ newUser ]},
+        "etat": 1
+    }; 
+    Playlist.getPlaylist(playlist,function(err, playlists){
+        if(err) res.json({"status":"ko"});
+        else{
+            res.json(playlists);
+        }
+    });
+}
 
 //-------- get playlist ko by idUser
 exports.GetPlaylistDelete = function(res,idUser){
@@ -96,6 +111,34 @@ exports.UpdatePlaylist = function(res,id,newPlaylist){
 //-------- delete playlist by idUser
 exports.DeletePlaylist = function(res,id){
     let playlist = {"etat":2};
+    Playlist.updatePlaylist(id,playlist,function(err, playlists){
+        if(err) res.json({"status":"ko"});
+        else{
+            res.json({"status":"ok"});
+        }
+    });
+}
+//-------- ajouter collaborateur playlist by idUser
+exports.AddCollaborateur = function(res,id,newUser){
+    let playlist = {
+       $addToSet :{
+           users : newUser
+       }
+    };
+    Playlist.updatePlaylist(id,playlist,function(err, playlists){
+        if(err) res.json({"status":"ko"});
+        else{
+            res.json({"status":"ok"});
+        }
+    });
+}
+//-------- enleve collaborateur playlist by idUser
+exports.RemoveCollaborateur = function(res,id,newUser){
+    let playlist = {
+       $pull :{
+           users : newUser
+       }
+    };
     Playlist.updatePlaylist(id,playlist,function(err, playlists){
         if(err) res.json({"status":"ko"});
         else{

@@ -17,6 +17,10 @@ let PlaylistSchema = mongoose.Schema({
     etat :{
         type: Number,
         required: true,
+    },
+    users :{
+        type: Array,
+        required: false
     }
 });
 

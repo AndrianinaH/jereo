@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 
-<main class="row">
+<main>
     <h5 class="my-titre {{color}}-text text-darken-3">
         <b>{{titre}}</b>
     </h5>
@@ -8,13 +8,24 @@
         <img src="/assets/images/rubickspreloader.gif" />
         <p>Chargement en cours ...</p>
     </div>
-    <div *ngIf="allPlaylist.length != 0">
-        <div class="col s12 m6 l4" *ngFor="let playlist of allPlaylist ; index as i">
+    <div *ngIf="allPlaylist.length != 0" class="row">
+        <p class="my-sous-titre {{color}}-text text-darken-3">Vos playlists</p>
+        <div class="col s12 m6 l4 playlist-my" *ngFor="let playlist of allPlaylist ; index as i">
             <div class="centreo">
-                <button class="btn amber" (click)="updateModal(playlist)">
+                <button class="btn tooltipped cyan" (click)="partageModal(playlist,i)" materialize="tooltip" data-position="top" data-delay="50"
+                    data-tooltip="partager à un utilisateur">
+                    <i class="material-icons">share</i>
+                </button>
+                <button class="btn tooltipped deep-purple" (click)="allCollaborateurModal(playlist,i)" materialize="tooltip" data-position="top"
+                    data-delay="50" data-tooltip="gérer le partage de cette playlist">
+                    <i class="material-icons">group_work</i>
+                </button>
+                <button class="btn tooltipped amber" (click)="updateModal(playlist)" materialize="tooltip" data-position="top" data-delay="50"
+                    data-tooltip="modifier la playlist">
                     <i class="material-icons">edit</i>
                 </button>
-                <button class="btn red" (click)="deleteModal(playlist)">
+                <button class="btn tooltipped red" (click)="deleteModal(playlist)" materialize="tooltip" data-position="top" data-delay="50"
+                    data-tooltip="supprimer la playlist">
                     <i class="material-icons">delete</i>
                 </button>
             </div>
@@ -37,7 +48,29 @@
         </div>
         <!-- fin col s12 m6 l4 -->
     </div>
-    <div *ngIf="allPlaylist.length == 0 && !preloader" class="vide valign-wrapper">
+    <div *ngIf="allPlaylistCollaborateur.length != 0" class="row">
+        <p class="my-sous-titre {{color}}-text text-darken-3">Playlists dont vous êtes spectateur</p>
+        <div class="col s12 m6 l4 playlist-my" *ngFor="let playlist of allPlaylistCollaborateur ; index as i">
+            <div class="card-panel {{playlist.couleur}} darken-1 row" (click)="voirDetail(playlist,2)">
+                <div class="col s3 card-icone">
+                    <i class="material-icons">video_library</i>
+                </div>
+                <div class="col s9">
+                    <p class="card-chiffre" *ngIf="(playlist.nbrVideo == undefined)">
+                        <span>{{nbrVideos[i]}}</span> Vidéo(s)
+                    </p>
+                    <p class="card-chiffre" *ngIf="(playlist.nbrVideo != undefined)">
+                        <span>{{playlist.nbrVideo}}</span> Vidéo(s)
+                    </p>
+                </div>
+                <div class="col s12">
+                    <p class="card-detail-text">{{playlist.titre}}</p>
+                </div>
+            </div>
+        </div>
+        <!-- fin col s12 m6 l4 -->
+    </div>
+    <div *ngIf="allPlaylist.length == 0 && allPlaylistCollaborateur.length == 0 && !preloader" class="vide valign-wrapper">
         <p>Vous n'avez pas encore de playlist</p>
     </div>
 
@@ -94,7 +127,7 @@
             </div>
             <div class="centreo">
                 <button type="button" class="btn black" (click)="closeUpdateModal()">annuler</button>
-                <button type="submit" class="btn {{addColor}}" [disabled]="!updateForm.valid">
+                <button type="submit" class="btn amber" [disabled]="!updateForm.valid">
                     <i class="material-icons left">done</i>Modifier
                 </button>
             </div>
@@ -102,11 +135,12 @@
     </div>
 </div>
 
-<!-- modal modifier -->
+<!-- modal supprimer -->
 <div class="modal" materialize="modal" [materializeActions]="deleteActions">
     <div class="modal-content">
         <h5 class="center red-text text-darken-1">Voulez vous vraiment supprimer la playlist</h5>
-        <h5 class="center red-text text-darken-1"> <strong>{{deletePlaylist.titre}}</strong> ?</h5>
+        <h5 class="center red-text text-darken-1">
+            <strong>{{deletePlaylist.titre}}</strong> ?</h5>
         <br>
         <br>
         <div class="centreo">
@@ -114,6 +148,56 @@
             <button type="button" class="btn red darken-1" (click)="supprimerPlaylist(deletePlaylist.id)">
                 <i class="material-icons left">delete</i>Supprimer
             </button>
+        </div>
+    </div>
+</div>
+
+<!-- modal partager -->
+<div class="modal" materialize="modal" [materializeActions]="partageActions">
+    <div class="modal-content">
+        <h5 class="center {{addColor}}-text">Partager la playlist
+            <b>{{partagePlaylist.titre}}</b> à un utilisateur</h5>
+        <form [formGroup]="partageForm" (ngSubmit)="addCollaborateur(partagePlaylist.i)">
+            <br>
+            <div class="input-field">
+                <input id="newUser" type="email" [(ngModel)]="partagePlaylist.newUser" formControlName="newUser">
+                <label for="newUser">email de l'utilisateur</label>
+            </div>
+            <div class="centreo">
+                <button type="button" class="btn black" (click)="closePartageModal()">annuler</button>
+                <button type="submit" class="btn cyan" [disabled]="!partageForm.valid">
+                    <i class="material-icons left">share</i>Partager
+                </button>
+            </div>
+            <p class="red-text text-darken-2 center-align">
+               {{errorPartage}}
+            </p>
+        </form>
+    </div>
+</div>
+
+<!-- modal allCollaborateur -->
+<div class="modal" materialize="modal" [materializeActions]="allCollaborateurActions">
+    <div class="modal-content">
+        <h5 class="center {{addColor}}-text">Liste des spéctateurs de la playlist
+            <b>{{collaborateurPlaylist.titre}}</b>
+        </h5>
+        <br>
+        <div class="centreo" *ngFor="let user of collaborateurPlaylist.users">
+            <button class="btn red remove-btn" (click)="removeCollaborateur(collaborateurPlaylist.id, user, collaborateurPlaylist.i)">
+                <i class="material-icons">close</i>
+            </button>
+            <span class="center-align">{{user}}</span>
+            <br>
+            <br>
+        </div>
+        <div class="input-field" *ngIf="collaborateurPlaylist.users.length == 0">
+            <p class="center-align">Cette playlist n' a pas de spectateur</p>
+            <br>
+        </div>
+
+        <div class="centreo">
+            <button type="button" class="btn black" (click)="closeAllCollaborateurModal()">fermer</button>
         </div>
     </div>
 </div>

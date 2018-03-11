@@ -17,11 +17,14 @@ export class DashboardComponent implements OnInit {
   public color: string = 'red';
   public addColor: string = 'indigo';
   public allPlaylist: any = [];
+  public allPlaylistCollaborateur: any = [];
   public nbrVideos: any = [];
   public preloader: boolean = true;
   public modalActions = new EventEmitter<string | MaterializeAction>();
   public updateActions = new EventEmitter<string | MaterializeAction>();
   public deleteActions = new EventEmitter<string | MaterializeAction>();
+  public partageActions = new EventEmitter<string | MaterializeAction>();
+  public allCollaborateurActions = new EventEmitter<string | MaterializeAction>();
   public allColor = [
     "indigo",
     "amber",
@@ -38,9 +41,13 @@ export class DashboardComponent implements OnInit {
   ];
   public addForm: FormGroup;
   public updateForm: FormGroup;
+  public partageForm: FormGroup;
   public newPlaylist: any = { "titre": "", "couleur": "" };
   public changePlaylist: any = { "id": "", "titre": "", "couleur": "", "nbrVideo": 0 };
+  public partagePlaylist: any = { "id": "", "titre": "", "newUser" : "", "i" : 0 };
   public deletePlaylist: any = { "id": "", "titre": "" };
+  public collaborateurPlaylist: any = { "id": "", "titre": "", "users" : [], "i" : 0 };
+  public errorPartage : string = "";
 
 
   constructor(
@@ -61,6 +68,10 @@ export class DashboardComponent implements OnInit {
       titre: ['', Validators.required],
       couleur: ['', Validators.required],
     });
+
+    this.partageForm = this.formBuilder.group({
+      newUser: ['', [Validators.email,Validators.required]]
+    });
   }
 
   ngOnInit() {
@@ -68,6 +79,16 @@ export class DashboardComponent implements OnInit {
       this.allPlaylist = result;
       for (let i = 0; i <  this.allPlaylist.length; i++) {
        this.getNbrVideo(i,  this.allPlaylist[i]._id);
+      }
+      this.preloader = false;
+    }).catch((err) => {
+      console.log(err);
+    })
+
+    this.dashboardService.getPlaylistByEmail().then((result: any) => {
+      this.allPlaylistCollaborateur = result;
+      for (let i = 0; i <  this.allPlaylistCollaborateur.length; i++) {
+       this.getNbrVideo(i,  this.allPlaylistCollaborateur[i]._id);
       }
       this.preloader = false;
     }).catch((err) => {
@@ -88,13 +109,37 @@ export class DashboardComponent implements OnInit {
   closeUpdateModal() {
     this.updateActions.emit({ action: "modal", params: ['close'] });
   }
-
   deleteModal(playlist: any) {
     this.deleteActions.emit({ action: "modal", params: ['open'] });
     this.deletePlaylist = { "id": playlist._id, "titre": playlist.titre };
   }
   closeDeleteModal() {
     this.deleteActions.emit({ action: "modal", params: ['close'] });
+  }
+  partageModal(playlist: any, i) {
+    this.partageActions.emit({ action: "modal", params: ['open'] });
+    this.partagePlaylist = { 
+      id : playlist._id, 
+      titre : playlist.titre,  
+      newUser : "", 
+      i : i 
+    }
+  }
+  closePartageModal() {
+    this.partageActions.emit({ action: "modal", params: ['close'] });
+    this.errorPartage = "";
+  }
+  allCollaborateurModal(playlist: any, i) {
+    this.collaborateurPlaylist = {
+      id : playlist._id,
+      titre : playlist.titre,
+      users : playlist.users,
+      i : i
+    }
+    this.allCollaborateurActions.emit({ action: "modal", params: ['open'] });
+  }
+  closeAllCollaborateurModal() {
+    this.allCollaborateurActions.emit({ action: "modal", params: ['close'] });
   }
 
   //------------------ voir les détails de la playlist
@@ -124,7 +169,7 @@ export class DashboardComponent implements OnInit {
   //------------------ modifier une playlist
   updatePlaylist() {
     let data = 'id=' + this.changePlaylist.id + '&titre=' + this.changePlaylist.titre + '&couleur=' + this.changePlaylist.couleur + '&idUser=' + this.auth.getUser()._id + '&etat=1';
-    this.dashboardService.updatePlaylistByIdUser(data).then((result: any) => {
+    this.dashboardService.updatePlaylistById(data).then((result: any) => {
       let playUpdate = {
         _id: result._id,
         titre: result.titre,
@@ -155,9 +200,41 @@ export class DashboardComponent implements OnInit {
   }
 
   //----------------- get NbrVideo by idPlaylist
-  getNbrVideo(i, id) {
+  private getNbrVideo(i, id) {
     this.playlistService.getVideoByIdPlaylist(id).then((result: any) => {
       this.nbrVideos[i] = result.length;
     })
   }
+
+  //----------------- partager la playlist
+  addCollaborateur(i){
+    if(this.partagePlaylist.newUser == this.auth.getUser().email){
+      this.errorPartage = "Vous êtes déjà le propriétaire de cette playlist";
+    }else{
+      let data = 'id=' + this.partagePlaylist.id + '&newUser=' + this.partagePlaylist.newUser;
+      this.dashboardService.addCollaborateur(data).then((result: any) => {
+        this.addElement(this.allPlaylist[i].users, this.partagePlaylist.newUser);
+        this.partagePlaylist = { "id": "", "titre": "", "newUser" : "", "i" : 0 };
+        this.closePartageModal();
+      })
+    }
+  
+  }
+
+  //----------------- partager la playlist
+  removeCollaborateur(id, newUser, i){
+    let data = 'id=' + id + '&newUser=' + newUser;
+    this.dashboardService.removeCollaborateur(data).then((result: any) => {
+      this.allPlaylist[i].users = this.allPlaylist[i].users.filter(user => user !== newUser);
+      this.collaborateurPlaylist.users = this.collaborateurPlaylist.users.filter(user => user !== newUser);
+    })
+  }
+
+  private addElement(allData, data) {
+    for (let i = 0; i < allData.length; i++) {
+      if (allData[i] == data) return;
+    }
+    allData.push(data);
+  }
+
 }

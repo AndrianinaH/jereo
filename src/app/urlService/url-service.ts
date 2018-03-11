@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UrlServiceProvider {
 
-    private baseUrl: string = "http://localhost:3000/api/";
-    // private baseUrl: string = "https://m1p5mean-26-andrianina.herokuapp.com/api/";
+    // private baseUrl: string = "http://localhost:3000/api/";
+    private baseUrl: string = "https://m1p5mean-26-andrianina.herokuapp.com/api/";
 
 
     //--------------------- Authentification
@@ -22,6 +22,10 @@ export class UrlServiceProvider {
         return this.baseUrl + "playlist/" + idUser;
     }
 
+    getPlaylistByEmail(email : string) : string{
+        return this.baseUrl + "playlistByEmail/" + email;
+    }
+
     getPlaylistDeleteByIdUser(idUser : string) : string{
         return this.baseUrl + "playlistDelete/" + idUser;
     }
@@ -32,6 +36,13 @@ export class UrlServiceProvider {
 
     deletePlaylistById(id :string) : string{
         return this.baseUrl + "playlist/" + id;
+    }
+
+    getAddCollaborateur() : string{
+        return this.baseUrl + "playlist/newUser";
+    }
+    getRemoveCollaborateur() : string{
+        return this.baseUrl + "playlist/removeUser";
     }
 
     //------------------- Video
