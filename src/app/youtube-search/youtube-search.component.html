@@ -1,147 +1,147 @@
 <!-------- menu principal  ---------->
 <header>
-    <div class="navbar">
-      <nav class="nav-extended {{color}} darken-3">
-        <div class="nav-wrapper">
-          <a data-activates="slide-out" class="button-collapse white-text" materialize="sideNav">
-            <i class="material-icons">menu</i>
-          </a>
-          <a class="brand-logo center white-text" routerLink="/dashboard">
-            <strong>Jereo</strong>
-          </a>
-          <ul class="right">
-            <li>
-              <a class="white-text" (click)="deconnexion()">Déconnexion</a>
+  <div class="navbar">
+    <nav class="nav-extended {{color}} darken-3">
+      <div class="nav-wrapper">
+        <a data-activates="slide-out" class="button-collapse white-text" materialize="sideNav">
+          <i class="material-icons">menu</i>
+        </a>
+        <a class="brand-logo center white-text" routerLink="/dashboard">
+          <strong>Jereo</strong>
+        </a>
+        <ul class="right">
+          <li>
+            <a class="white-text" (click)="deconnexion()">Déconnexion</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+<!---------- menu latéral ---------->
+<ul id="slide-out" class="side-nav fixed">
+  <li>
+    <div class="userView">
+      <div class="background">
+        <img src="/assets/images/office2.jpg">
+      </div>
+      <div class="centreo">
+        <a>
+          <span class="circle nom_badge {{badgeColor}} white-text">{{getInitial(user.pseudo)}}</span>
+        </a>
+        <a>
+          <span class="white-text name">{{user.pseudo}}</span>
+        </a>
+        <a>
+          <span class="white-text email">{{user.email}}</span>
+        </a>
+      </div>
+
+    </div>
+  </li>
+  <li>
+    <a routerLink="/dashboard" class="{{color}}-text text-darken-3">
+      <i class="material-icons {{color}}-text text-darken-3">dashboard</i>Dashboard
+    </a>
+  </li>
+  <li>
+    <div class="divider"></div>
+  </li>
+  <li>
+    <a class="{{color}}-text text-darken-3" routerLink="/youtube-search">
+      <i class="material-icons {{color}}-text text-darken-3">videocam</i>Rechercher une video
+    </a>
+  </li>
+  <li>
+    <div class="divider"></div>
+  </li>
+  <li class="no-padding">
+    <ul class="collapsible collapsible-accordion" materialize="collapsible">
+      <li>
+        <a class="collapsible-header active {{color}}-text text-darken-3">Vos Playlists
+          <i class="material-icons {{color}}-text text-darken-3">video_library</i>
+        </a>
+        <div class="collapsible-body">
+          <ul>
+            <li *ngFor="let playlist of allPlaylist ; index as i" dropDirective (dropEvent)="addDropItem($event,playlist._id)">
+              <a class="{{playlist.couleur}} darken-1 white-text" (click)="voirDetail(playlist,1)">
+                {{formatTitre(playlist.titre)}}
+                <span class="badge {{playlist.couleur}} white-text" data-badge-caption="video(s)">{{nbrVideos[i]}}</span>
+              </a>
             </li>
           </ul>
         </div>
-      </nav>
-    </div>
-  </header>
-  <!---------- menu latéral ---------->
-  <ul id="slide-out" class="side-nav fixed">
-    <li>
-      <div class="userView">
-        <div class="background">
-          <img src="/assets/images/office2.jpg">
-        </div>
-        <div class="centreo">
-          <a>
-            <span class="circle nom_badge {{badgeColor}} white-text">{{getInitial(user.pseudo)}}</span>
-          </a>
-          <a>
-            <span class="white-text name">{{user.pseudo}}</span>
-          </a>
-          <a>
-            <span class="white-text email">{{user.email}}</span>
-          </a>
-        </div>
-  
-      </div>
-    </li>
-    <li>
-      <a routerLink="/dashboard" class="{{color}}-text text-darken-3">
-        <i class="material-icons {{color}}-text text-darken-3">dashboard</i>Dashboard
-      </a>
-    </li>
-    <li>
-      <div class="divider"></div>
-    </li>
-    <li>
-      <a class="{{color}}-text text-darken-3" routerLink="/youtube-search">
-        <i class="material-icons {{color}}-text text-darken-3">videocam</i>Rechercher une video
-      </a>
-    </li>
-    <li>
-      <div class="divider"></div>
-    </li>
-    <li class="no-padding">
-      <ul class="collapsible collapsible-accordion" materialize="collapsible">
-        <li>
-          <a class="collapsible-header active {{color}}-text text-darken-3">Vos Playlists
-            <i class="material-icons {{color}}-text text-darken-3">video_library</i>
-          </a>
-          <div class="collapsible-body">
-            <ul>
-              <li *ngFor="let playlist of allPlaylist ; index as i" dropDirective (dropEvent)="addDropItem($event,playlist._id)">
-                <a class="{{playlist.couleur}} darken-1 white-text" (click)="voirDetail(playlist)">
-                  {{formatTitre(playlist.titre)}}<span class="badge {{playlist.couleur}} white-text" data-badge-caption="video(s)">{{nbrVideos[i]}}</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
 <!-- main container -->
 <main class="row my-container">
-    <div class="col s2"></div>
-    <div class="input-field col s8">
-        <i class="material-icons prefix indigo-text">search</i>
-        <input id="icon_prefix" type="text" [(ngModel)]="data" (keyup)="searchVideo()">
-        <label for="icon_prefix">Rechercher une vidéo youtube</label>
+  <div class="col s2"></div>
+  <div class="input-field col s8">
+    <i class="material-icons prefix indigo-text">search</i>
+    <input id="icon_prefix" type="text" [(ngModel)]="data" (keyup)="searchVideo()">
+    <label for="icon_prefix">Rechercher une vidéo youtube</label>
+  </div>
+  <div class="col s2"></div>
+  <div id="ajax-loader" class="col s12" *ngIf="preloader">
+    <img src="/assets/images/rubickspreloader.gif" />
+    <p>Chargement en cours ...</p>
+  </div>
+  <!-- all searched video -->
+  <div class="col s12 m6 l4" *ngFor="let video of allResult" [dragDirective]='video'>
+    <div class="card">
+      <div class="card-image">
+        <img [src]="video.snippet.thumbnails.medium.url">
+        <a class="btn-floating btn-large halfway-fab2 waves-effect waves-light indigo" (click)="playVideo(video)">
+          <i class="material-icons">play_arrow</i>
+        </a>
+        <a class="btn-floating btn-large halfway-fab waves-effect waves-light amber -darken-2" (click)="addModal(video)">
+          <i class="material-icons">add</i>
+        </a>
+      </div>
+      <div class="card-content">
+        <span class="card-title indigo-text text-darken-3">{{video.snippet.title}}</span>
+      </div>
     </div>
-    <div class="col s2"></div>
-    <div id="ajax-loader" class="col s12" *ngIf="preloader">
-        <img src="/assets/images/rubickspreloader.gif" />
-        <p>Chargement en cours ...</p>
-    </div>
-    <div class="col s12 m6 l4" *ngFor="let video of allResult" [dragDirective]='video'>
-        <div class="card">
-            <div class="card-image">
-                <img [src]="video.snippet.thumbnails.medium.url">
-                <a class="btn-floating btn-large halfway-fab2 waves-effect waves-light indigo" (click)="playVideo(video)">
-                    <i class="material-icons">play_arrow</i>
-                </a>
-                <a class="btn-floating btn-large halfway-fab waves-effect waves-light amber -darken-2" (click)="addModal(video)">
-                    <i class="material-icons">add</i>
-                </a>
-            </div>
-            <div class="card-content">
-                <span class="card-title indigo-text text-darken-3">{{video.snippet.title}}</span>
-            </div>
-        </div>
-    </div>
+  </div>
 </main>
 <!-- ----------------- modal zone --------------- -->
 <!-- modal ajouter -->
 <div class="modal" materialize="modal" [materializeActions]="addActions">
-    <div class="modal-content">
-        <h5 class="center {{addColor}}-text">Ajouter une vidéo à une playlist</h5>
-        <form [formGroup]="addForm" (ngSubmit)="ajouterVideo()">
-            <div>
-                <label for="idPlaylist">Vos Playlists</label>
-                <select id="idPlaylist" [(ngModel)]="addVideo.idPlaylist" materialize="material_select" [materializeSelectOptions]="allPlaylist" formControlName="idPlaylist">
-                    <option value="">Choisissez une playlist</option>
-                    <option *ngFor="let playlist of allPlaylist" class="{{couleur}}-text" [value]="playlist._id">{{playlist.titre}}</option>
-                </select>
-            </div>
-            <div class="centreo">
-                <button type="button" class="btn black" (click)="closeModal()">annuler</button>
-                <button type="submit" class="btn tooltipped {{addColor}}" [disabled]="!addForm.valid">
-                    <i class="material-icons left">done</i>Enregistrer
-                </button>
-            </div>
-        </form>
-    </div>
+  <div class="modal-content">
+    <h5 class="center {{addColor}}-text">Ajouter une vidéo à une playlist</h5>
+    <form [formGroup]="addForm" (ngSubmit)="ajouterVideo()">
+      <div>
+        <label for="idPlaylist">Vos Playlists</label>
+        <select id="idPlaylist" [(ngModel)]="addVideo.idPlaylist" materialize="material_select" [materializeSelectOptions]="allPlaylist"
+          formControlName="idPlaylist">
+          <option value="">Choisissez une playlist</option>
+          <option *ngFor="let playlist of allPlaylist" class="{{couleur}}-text" [value]="playlist._id">{{playlist.titre}}</option>
+        </select>
+      </div>
+      <div class="centreo">
+        <button type="button" class="btn black" (click)="closeModal()">annuler</button>
+        <button type="submit" class="btn tooltipped {{addColor}}" [disabled]="!addForm.valid">
+          <i class="material-icons left">done</i>Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 <!-- modal success -->
 <div class="modal  green darken-3" materialize="modal" [materializeActions]="successActions">
-    <p class="center-align white-text">La vidéo a été ajouter à la playlist</p>
+  <p class="center-align white-text">La vidéo a été ajouter à la playlist</p>
 </div>
 
 <!-- modal play Video -->
 <div class="modal play-video" materialize="modal" [materializeActions]="playActions">
-    <div class="modal-content">
-      <div class="video-container">
-        <iframe class="responsive-video" 
-          [src]="safeUrl" 
-          frameborder="0"
-          allowfullscreen>
-        </iframe>
-      </div>
-      <p class="center-align">{{videoToPlay.titre}}</p>
+  <div class="modal-content">
+    <div class="video-container">
+      <iframe class="responsive-video" [src]="safeUrl" frameborder="0" allowfullscreen>
+      </iframe>
     </div>
+    <p class="center-align">{{videoToPlay.titre}}</p>
   </div>
+</div>

@@ -16,3 +16,6 @@ input:not([type]):focus:not([readonly])+label, input[type=text]:focus:not([reado
  .play-video p{
     padding: 10px;
  }
+ .card{
+     cursor: grab !important;
+ }

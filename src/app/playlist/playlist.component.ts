@@ -29,6 +29,7 @@ export class PlaylistComponent implements OnInit {
   public changeForm: FormGroup;
   public videoToPlay : any = {"id" : "" , "videoId" : "", "titre" : "" };
   public safeUrl : SafeResourceUrl = "";
+  public privilege : any = "";
   
 
   constructor(
@@ -51,6 +52,7 @@ export class PlaylistComponent implements OnInit {
       this.playlist = JSON.parse(atob(res.playlist));
       this.titre = this.playlist.titre;
       this.color = this.playlist.couleur;
+      this.privilege = this.playlist.privilege;
     });
 
     //----------------- get Video by idPlaylist

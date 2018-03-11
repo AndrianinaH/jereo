@@ -23,7 +23,7 @@
           <td>
             {{ video.titre }}
           </td>
-          <td>
+          <td *ngIf="privilege == 1">
             <a class="btn-flat edit" (click)="changeModal(video)">
               <i class="material-icons">edit</i>
             </a>

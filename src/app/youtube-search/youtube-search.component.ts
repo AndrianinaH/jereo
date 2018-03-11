@@ -57,7 +57,7 @@ export class YoutubeSearchComponent implements OnInit {
     if (!this.isConnected) this.router.navigate(['login']);
     this.user = this.auth.getUser();
 
-    this.youtubeService.search("actualité mondiale").then((result: any) => {
+    this.youtubeService.search(this.getRandomKeyWord()).then((result: any) => {
       this.allResult = result.items;
       this.preloader = false;
     }).catch(err => {
@@ -74,6 +74,33 @@ export class YoutubeSearchComponent implements OnInit {
     }).catch((err) => {
       console.log(err);
     })
+  }
+
+  //----------------- get random search keyword
+  getRandomKeyWord(){
+    var num = Math.floor((Math.random() * 10) + 1);
+    switch (num) {
+      case 1:
+        return "actualité mondiale";
+      case 2:
+        return "champions league";
+      case 3:
+        return "actualité foot";
+      case 4:
+        return "nouveauté musique";
+      case 5:
+        return "meilleur nouvelle série";
+      case 6:
+        return "meilleur nouveau film";
+      case 7:
+        return "best wtf moment";
+      case 8:
+        return "best fail moment";
+      case 9:
+        return "actualité madagascar";
+      case 10:
+        return "NTIC actu";
+    }
   }
 
   //----------------- get NbrVideo by idPlaylist
@@ -120,7 +147,6 @@ export class YoutubeSearchComponent implements OnInit {
     };
     console.log(this.videoToPlay);
     this.safeUrl = this.sanitanizer.bypassSecurityTrustResourceUrl(this.videoToPlay.videoId);
-    //this.router.navigate(['youtube-play',btoa(videoId)]);
   }
 
 
@@ -199,7 +225,8 @@ export class YoutubeSearchComponent implements OnInit {
   }
 
   //------------------ voir les détails de la playlist
-  voirDetail(playlist) {
+  voirDetail(playlist,privilege) {
+    playlist.privilege = privilege;
     let playlistEncode = JSON.stringify(playlist);
     this.router.navigate(['playlist', btoa(playlistEncode)]);
   }

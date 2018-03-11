@@ -98,7 +98,8 @@ export class DashboardComponent implements OnInit {
   }
 
   //------------------ voir les détails de la playlist
-  voirDetail(playlist) {
+  voirDetail(playlist,privilege) {
+    playlist.privilege = privilege;
     let playlistEncode = JSON.stringify(playlist);
     this.router.navigate(['playlist', btoa(playlistEncode)]);
   }
