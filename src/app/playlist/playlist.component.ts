@@ -6,6 +6,7 @@ import { AuthService } from '../service/auth-service/auth-service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NotificationService } from '../service/notification-service/notification-service';
 
 @Component({
   selector: 'app-playlist',
@@ -39,7 +40,8 @@ export class PlaylistComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    public sanitanizer : DomSanitizer
+    public sanitanizer : DomSanitizer,
+    public notifService : NotificationService
   ) {
     this.changeForm = this.formBuilder.group({
       idPlaylist: ['', Validators.required]
@@ -67,6 +69,9 @@ export class PlaylistComponent implements OnInit {
     }).catch((err) => {
       console.log(err);
     })
+
+    //-------- listener for notification push
+    this.notifService.getPubNubMessage(this.auth.getUser().email,1);
   }
   //----------- change la playlist de la video
   moveVideo(){

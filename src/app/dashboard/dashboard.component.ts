@@ -5,9 +5,7 @@ import { AuthService } from '../service/auth-service/auth-service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service';
-import { PubNubAngular } from 'pubnub-angular2';
-
-
+import { NotificationService } from '../service/notification-service/notification-service';
 
 
 
@@ -49,11 +47,11 @@ export class DashboardComponent implements OnInit {
   public partageForm: FormGroup;
   public newPlaylist: any = { "titre": "", "couleur": "" };
   public changePlaylist: any = { "id": "", "titre": "", "couleur": "", "nbrVideo": 0 };
-  public partagePlaylist: any = { "id": "", "titre": "", "newUser" : "", "i" : 0 };
+  public partagePlaylist: any = { "id": "", "titre": "", "newUser": "", "i": 0 };
   public deletePlaylist: any = { "id": "", "titre": "" };
-  public collaborateurPlaylist: any = { "id": "", "titre": "", "users" : [], "i" : 0 };
-  public errorPartage : string = "";
-
+  public collaborateurPlaylist: any = { "id": "", "titre": "", "users": [], "i": 0 };
+  public errorPartage: string = "";
+ 
 
   constructor(
     private auth: AuthService,
@@ -62,7 +60,8 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    public pubnub : PubNubAngular,
+    private notifService : NotificationService
+    
   ) {
     this.addForm = this.formBuilder.group({
       titre: ['', Validators.required],
@@ -76,41 +75,42 @@ export class DashboardComponent implements OnInit {
     });
 
     this.partageForm = this.formBuilder.group({
-      newUser: ['', [Validators.email,Validators.required]]
+      newUser: ['', [Validators.email, Validators.required]]
     });
 
-    //------ pubnub init
-    pubnub.init({
-      publishKey: 'pub-c-6312060c-79da-49c2-bc42-1b0cbcf75662',
-      subscribeKey:'sub-c-6a454cf8-25c4-11e8-84be-f641dd32cbde'
-    });
- 
+   
+
   }
 
   ngOnInit() {
     this.dashboardService.getPlaylistByIdUser().then((result: any) => {
       this.allPlaylist = result;
-      for (let i = 0; i <  this.allPlaylist.length; i++) {
-       this.getNbrVideo(i,  this.allPlaylist[i]._id, 1);
+      for (let i = 0; i < this.allPlaylist.length; i++) {
+        this.getNbrVideo(i, this.allPlaylist[i]._id, 1);
       }
       this.preloader = false;
     }).catch((err) => {
       console.log(err);
     });
-
-    this.dashboardService.getPlaylistByEmail().then((result: any) => {
-      this.allPlaylistCollaborateur = result;
-      for (let i = 0; i <  this.allPlaylistCollaborateur.length; i++) {
-       this.getNbrVideo(i,  this.allPlaylistCollaborateur[i]._id, 2);
-      }
-      this.preloader = false;
-    }).catch((err) => {
-      console.log(err);
-    });
+    this.getPlayListByEmail();
+   
 
     //-------- listener for notification push
-    this.getPubNubMessage(this.auth.getUser().email);
+    this.notifService.getPubNubMessage(this.auth.getUser().email,2,this.allPlaylistCollaborateur,this.nbrVideosEmail);
 
+  }
+
+  //------------------ get all PlaylistByEmail
+  getPlayListByEmail(){
+    this.dashboardService.getPlaylistByEmail().then((result: any) => {
+      this.allPlaylistCollaborateur = result;
+      for (let i = 0; i < this.allPlaylistCollaborateur.length; i++) {
+        this.getNbrVideo(i, this.allPlaylistCollaborateur[i]._id, 2);
+      }
+      this.preloader = false;
+    }).catch((err) => {
+      console.log(err);
+    });
   }
   //------------------ gére les modals 
   addModal() {
@@ -135,11 +135,11 @@ export class DashboardComponent implements OnInit {
   }
   partageModal(playlist: any, i) {
     this.partageActions.emit({ action: "modal", params: ['open'] });
-    this.partagePlaylist = { 
-      id : playlist._id, 
-      titre : playlist.titre,  
-      newUser : "", 
-      i : i 
+    this.partagePlaylist = {
+      id: playlist._id,
+      titre: playlist.titre,
+      newUser: "",
+      i: i
     }
   }
   closePartageModal() {
@@ -148,10 +148,10 @@ export class DashboardComponent implements OnInit {
   }
   allCollaborateurModal(playlist: any, i) {
     this.collaborateurPlaylist = {
-      id : playlist._id,
-      titre : playlist.titre,
-      users : playlist.users,
-      i : i
+      id: playlist._id,
+      titre: playlist.titre,
+      users: playlist.users,
+      i: i
     }
     this.allCollaborateurActions.emit({ action: "modal", params: ['open'] });
   }
@@ -160,7 +160,7 @@ export class DashboardComponent implements OnInit {
   }
 
   //------------------ voir les détails de la playlist
-  voirDetail(playlist,privilege) {
+  voirDetail(playlist, privilege) {
     playlist.privilege = privilege;
     let playlistEncode = JSON.stringify(playlist);
     this.router.navigate(['playlist', btoa(playlistEncode)]);
@@ -213,8 +213,8 @@ export class DashboardComponent implements OnInit {
       this.allPlaylist = this.allPlaylist.filter(play => play._id !== id);
       this.deletePlaylist = { "id": "", "titre": "" };
       this.closeDeleteModal();
-      for (let i = 0; i <  this.allPlaylist.length; i++) {
-        this.getNbrVideo(i,  this.allPlaylist[i]._id, 1);
+      for (let i = 0; i < this.allPlaylist.length; i++) {
+        this.getNbrVideo(i, this.allPlaylist[i]._id, 1);
       }
     })
   }
@@ -222,7 +222,7 @@ export class DashboardComponent implements OnInit {
   //----------------- get NbrVideo by idPlaylist
   private getNbrVideo(i, id, num) {
     this.playlistService.getVideoByIdPlaylist(id).then((result: any) => {
-      if(num == 1) this.nbrVideos[i] = result.length;
+      if (num == 1) this.nbrVideos[i] = result.length;
       else this.nbrVideosEmail[i] = result.length;
     })
   }
@@ -234,52 +234,54 @@ export class DashboardComponent implements OnInit {
   }
 
   //----------------- partager la playlist
-  addCollaborateur(i){
-    if(this.partagePlaylist.newUser == this.auth.getUser().email){
+  addCollaborateur(i) {
+    if (this.partagePlaylist.newUser == this.auth.getUser().email) {
       this.errorPartage = "Vous êtes déjà le propriétaire de cette playlist";
-    }else{
+    } else {
       let data = 'id=' + this.partagePlaylist.id + '&newUser=' + this.partagePlaylist.newUser;
       this.dashboardService.addCollaborateur(data).then((result: any) => {
         this.addElement(this.allPlaylist[i].users, this.partagePlaylist.newUser);
 
-         //pushnotification
+        //push notification
         //append new playlistcollaborateur
-        this.sendPubNubMessage(this.partagePlaylist.newUser,"Mande ve oh !!");
-
+        let dataToSend = {
+          notif : "Vous avez été ajouter en tant que spectateur d'une nouvelle playlist",
+        };
+        this.notifService.sendPubNubMessage(this.partagePlaylist.newUser, JSON.stringify(dataToSend));
         //---------- re init all object
-        this.partagePlaylist = { "id": "", "titre": "", "newUser" : "", "i" : 0 };
+        this.partagePlaylist = { "id": "", "titre": "", "newUser": "", "i": 0 };
         this.closePartageModal();
 
-       
+
 
       })
     }
-  
+
   }
 
   //----------------- remove la playlist (admin side)
-  removeCollaborateur(id, newUser, i){
+  removeCollaborateur(id, newUser, i) {
     let data = 'id=' + id + '&newUser=' + newUser;
     this.dashboardService.removeCollaborateur(data).then((result: any) => {
       this.allPlaylist[i].users = this.allPlaylist[i].users.filter(user => user !== newUser);
       this.collaborateurPlaylist.users = this.collaborateurPlaylist.users.filter(user => user !== newUser);
 
-      //pushnotification
+      //push notification
       //remove delete playlistcollaborateur
 
     })
   }
 
   //----------------- ne plus voir la playlist (spectateur side)
-  hidePlaylist(id, i){
+  hidePlaylist(id, i) {
     let newUser = this.auth.getUser().email
     let data = 'id=' + id + '&newUser=' + this.auth.getUser().email;
     this.dashboardService.removeCollaborateur(data).then((result: any) => {
       this.allPlaylistCollaborateur = this.allPlaylistCollaborateur.filter(playlist => playlist._id !== id);
-      for (let i = 0; i <  this.allPlaylistCollaborateur.length; i++) {
-        this.getNbrVideo(i,  this.allPlaylistCollaborateur[i]._id, 2);
+      for (let i = 0; i < this.allPlaylistCollaborateur.length; i++) {
+        this.getNbrVideo(i, this.allPlaylistCollaborateur[i]._id, 2);
       }
-     
+
 
       //pushnotification
       //remove delete playlistcollaborateur
@@ -288,30 +290,15 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  //----------------- PubNub notification service
-  sendPubNubMessage(myChannel,msg){
-    this.subscribePubNub(myChannel);
-    this.pubnub.publish({ channel: myChannel, message: msg},(response)=>{
-      console.log(response);
-    });
-  }
 
-  getPubNubMessage(myChannel){
-    this.subscribePubNub(myChannel);
-    this.pubnub.getMessage(myChannel, (msg)=>{
-      console.log("cdsfsdfd");
-      console.log(msg.message);
-    })
-  }
-
-  subscribePubNub(myChannel){
-    this.pubnub.subscribe({channels : [myChannel],triggerEvents:['message']});
-  }
-
-  //---------- notification web
-  notificationPush(title, msg){
-    
-  }
  
+
+
+
+
+
+
+
+
 
 }

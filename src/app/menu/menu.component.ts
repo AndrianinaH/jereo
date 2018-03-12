@@ -19,7 +19,7 @@ export class MenuComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ){
   }
 
@@ -27,7 +27,7 @@ export class MenuComponent implements OnInit {
     this.badgeColor = this.getColor();
     this.isConnected = this.auth.isConnected();
     if(!this.isConnected) this.router.navigate(['login']);
-    this.user = this.auth.getUser();  
+    this.user = this.auth.getUser(); 
   }
 
   //-------------- displayUser in dashboard --------------//

@@ -7,6 +7,7 @@ import { PlaylistServiceProvider } from '../service/playlist-service/playlist-se
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NotificationService } from '../service/notification-service/notification-service';
 
 @Component({
   selector: 'app-youtube-search',
@@ -44,7 +45,8 @@ export class YoutubeSearchComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    public sanitanizer: DomSanitizer
+    public sanitanizer: DomSanitizer,
+    public notifService : NotificationService
   ) {
     this.addForm = this.formBuilder.group({
       idPlaylist: ['', Validators.required]
@@ -74,6 +76,9 @@ export class YoutubeSearchComponent implements OnInit {
     }).catch((err) => {
       console.log(err);
     })
+
+    //-------- listener for notification push
+    this.notifService.getPubNubMessage(this.auth.getUser().email,1);
   }
 
   //----------------- get random search keyword

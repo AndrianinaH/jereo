@@ -16,6 +16,7 @@ import { appRoutingComponents, AppRoutingModule } from './app-routing.module';
 import { AuthService } from './service/auth-service/auth-service';
 import { YoutubeServiceProvider } from './service/youtube-service/youtube-service';
 import { DragDropDirectiveModule} from "angular4-drag-drop";
+import { NotificationService } from './service/notification-service/notification-service';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { DragDropDirectiveModule} from "angular4-drag-drop";
     PlaylistServiceProvider,
     DashboardServiceProvider,
     YoutubeServiceProvider,
-    PubNubAngular
+    PubNubAngular,
+    NotificationService
     
   ],
   bootstrap: [AppComponent]
