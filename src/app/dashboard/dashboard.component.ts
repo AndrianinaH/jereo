@@ -5,12 +5,16 @@ import { AuthService } from '../service/auth-service/auth-service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlaylistServiceProvider } from '../service/playlist-service/playlist-service';
+import { PubNubAngular } from 'pubnub-angular2';
+
+
+
 
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
   public titre: string = "Dashboard";
@@ -57,7 +61,8 @@ export class DashboardComponent implements OnInit {
     private playlistService: PlaylistServiceProvider,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public pubnub : PubNubAngular,
   ) {
     this.addForm = this.formBuilder.group({
       titre: ['', Validators.required],
@@ -73,6 +78,13 @@ export class DashboardComponent implements OnInit {
     this.partageForm = this.formBuilder.group({
       newUser: ['', [Validators.email,Validators.required]]
     });
+
+    //------ pubnub init
+    pubnub.init({
+      publishKey: 'pub-c-6312060c-79da-49c2-bc42-1b0cbcf75662',
+      subscribeKey:'sub-c-6a454cf8-25c4-11e8-84be-f641dd32cbde'
+    });
+ 
   }
 
   ngOnInit() {
@@ -84,7 +96,7 @@ export class DashboardComponent implements OnInit {
       this.preloader = false;
     }).catch((err) => {
       console.log(err);
-    })
+    });
 
     this.dashboardService.getPlaylistByEmail().then((result: any) => {
       this.allPlaylistCollaborateur = result;
@@ -94,7 +106,11 @@ export class DashboardComponent implements OnInit {
       this.preloader = false;
     }).catch((err) => {
       console.log(err);
-    })
+    });
+
+    //-------- listener for notification push
+    this.getPubNubMessage(this.auth.getUser().email);
+
   }
   //------------------ gére les modals 
   addModal() {
@@ -225,11 +241,16 @@ export class DashboardComponent implements OnInit {
       let data = 'id=' + this.partagePlaylist.id + '&newUser=' + this.partagePlaylist.newUser;
       this.dashboardService.addCollaborateur(data).then((result: any) => {
         this.addElement(this.allPlaylist[i].users, this.partagePlaylist.newUser);
+
+         //pushnotification
+        //append new playlistcollaborateur
+        this.sendPubNubMessage(this.partagePlaylist.newUser,"Mande ve oh !!");
+
+        //---------- re init all object
         this.partagePlaylist = { "id": "", "titre": "", "newUser" : "", "i" : 0 };
         this.closePartageModal();
 
-        //pushnotification
-        //append new playlistcollaborateur
+       
 
       })
     }
@@ -249,8 +270,8 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-   //----------------- ne plus voir la playlist (spectateur side)
-   hidePlaylist(id, i){
+  //----------------- ne plus voir la playlist (spectateur side)
+  hidePlaylist(id, i){
     let newUser = this.auth.getUser().email
     let data = 'id=' + id + '&newUser=' + this.auth.getUser().email;
     this.dashboardService.removeCollaborateur(data).then((result: any) => {
@@ -267,6 +288,30 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  //----------------- PubNub notification service
+  sendPubNubMessage(myChannel,msg){
+    this.subscribePubNub(myChannel);
+    this.pubnub.publish({ channel: myChannel, message: msg},(response)=>{
+      console.log(response);
+    });
+  }
+
+  getPubNubMessage(myChannel){
+    this.subscribePubNub(myChannel);
+    this.pubnub.getMessage(myChannel, (msg)=>{
+      console.log("cdsfsdfd");
+      console.log(msg.message);
+    })
+  }
+
+  subscribePubNub(myChannel){
+    this.pubnub.subscribe({channels : [myChannel],triggerEvents:['message']});
+  }
+
+  //---------- notification web
+  notificationPush(title, msg){
+    
+  }
  
 
 }

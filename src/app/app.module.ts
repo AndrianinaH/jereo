@@ -17,6 +17,7 @@ import { AuthService } from './service/auth-service/auth-service';
 import { YoutubeServiceProvider } from './service/youtube-service/youtube-service';
 import { DragDropDirectiveModule} from "angular4-drag-drop";
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,7 @@ import { DragDropDirectiveModule} from "angular4-drag-drop";
     FormsModule,
     ReactiveFormsModule,
     MaterializeModule,
-    DragDropDirectiveModule
+    DragDropDirectiveModule, 
   ],
   providers: [
     PubNubAngular,
@@ -37,7 +38,8 @@ import { DragDropDirectiveModule} from "angular4-drag-drop";
     AuthService,
     PlaylistServiceProvider,
     DashboardServiceProvider,
-    YoutubeServiceProvider
+    YoutubeServiceProvider,
+    PubNubAngular
     
   ],
   bootstrap: [AppComponent]
