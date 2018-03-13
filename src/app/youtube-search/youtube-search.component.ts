@@ -78,7 +78,8 @@ export class YoutubeSearchComponent implements OnInit {
     })
 
     //-------- listener for notification push
-    this.notifService.getPubNubMessage(this.auth.getUser().email,1);
+    this.notifService.getPubNubMessage(this.auth.getUser().email);
+    this.notifService.getPubNubMessage(this.auth.getUser().email+"1");
   }
 
   //----------------- get random search keyword

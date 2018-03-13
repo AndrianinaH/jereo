@@ -8,7 +8,6 @@ import { PlaylistServiceProvider } from '../service/playlist-service/playlist-se
 import { NotificationService } from '../service/notification-service/notification-service';
 
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -60,7 +59,7 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private notifService : NotificationService
+    private notifService : NotificationService,
     
   ) {
     this.addForm = this.formBuilder.group({
@@ -78,8 +77,6 @@ export class DashboardComponent implements OnInit {
       newUser: ['', [Validators.email, Validators.required]]
     });
 
-   
-
   }
 
   ngOnInit() {
@@ -96,7 +93,8 @@ export class DashboardComponent implements OnInit {
    
 
     //-------- listener for notification push
-    this.notifService.getPubNubMessage(this.auth.getUser().email,2,this.allPlaylistCollaborateur,this.nbrVideosEmail);
+    this.notifService.getPubNubMessage(this.auth.getUser().email);
+    this.notifService.getPubNubMessage(this.auth.getUser().email+"1");
 
   }
 
@@ -243,7 +241,6 @@ export class DashboardComponent implements OnInit {
         this.addElement(this.allPlaylist[i].users, this.partagePlaylist.newUser);
 
         //push notification
-        //append new playlistcollaborateur
         let dataToSend = {
           notif : "Vous avez été ajouter en tant que spectateur d'une nouvelle playlist",
         };
@@ -267,7 +264,11 @@ export class DashboardComponent implements OnInit {
       this.collaborateurPlaylist.users = this.collaborateurPlaylist.users.filter(user => user !== newUser);
 
       //push notification
-      //remove delete playlistcollaborateur
+       let dataToSend = {
+        notif : "Vous avez été retirer des spectateurs de la playlist "+this.collaborateurPlaylist.titre,
+      };
+      this.notifService.sendPubNubMessage(newUser+"1", JSON.stringify(dataToSend));
+
 
     })
   }
@@ -281,15 +282,11 @@ export class DashboardComponent implements OnInit {
       for (let i = 0; i < this.allPlaylistCollaborateur.length; i++) {
         this.getNbrVideo(i, this.allPlaylistCollaborateur[i]._id, 2);
       }
-
-
-      //pushnotification
-      //remove delete playlistcollaborateur
-      //remove users from list of collaborateur
-
     })
   }
 
+
+   
 
  
 

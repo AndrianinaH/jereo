@@ -4,8 +4,11 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class UrlServiceProvider {
 
-    // private baseUrl: string = "http://localhost:3000/api/";
-    private baseUrl: string = "https://m1p5mean-26-andrianina.herokuapp.com/api/";
+    // public baseUrl: string = "http://localhost:3000/api/";
+    public baseUrl: string = "https://m1p5mean-26-andrianina.herokuapp.com/api/";
+
+    // public URL_BASE : string = "http://localhost:4200/";
+    public URL_BASE : string = "https://m1p5mean-26-andrianina.herokuapp.com/";
 
 
     //--------------------- Authentification
